@@ -1,8 +1,10 @@
-function _y(y, h){
+import {Coordinate, Coordinate3D, Rect} from "./entities";
+
+function _y(y: number, h: number): number{
     return h - y;
 }
 
-function positionCalculation(point: Coordinate3D,
+export function positionCalculation(point: Coordinate3D,
                              center: Coordinate,
                              word: Rect,
                              canvas: Rect,

@@ -1,4 +1,4 @@
-class Coordinate {
+export class Coordinate {
     public x: number;
     public y: number;
 
@@ -8,7 +8,7 @@ class Coordinate {
     }
 }
 
-class Coordinate3D extends Coordinate {
+export class Coordinate3D extends Coordinate {
     public z: number;
 
     constructor(x: number = 0, y: number = 0, z: number = 0) {
@@ -17,11 +17,11 @@ class Coordinate3D extends Coordinate {
     }
 }
 
-class Rect {
+export class Rect {
     public h: number;
     public w: number;
 
-    constructor(h: number, w: number) {
+    constructor(w: number, h: number) {
         this.h = h;
         this.w = w;
     }
