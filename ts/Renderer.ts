@@ -1,5 +1,6 @@
 import {Coordinate, Coordinate3D, Rect} from "./entities";
 import {positionCalculation} from "./positionCalculation";
+import {ColorRenderable, Renderable, RenderStyle} from "./RenderableEntities";
 
 export class Renderer {
     private c: CanvasRenderingContext2D;
@@ -11,21 +12,6 @@ export class Renderer {
 
     constructor(context: CanvasRenderingContext2D) {
         this.c = context;
-    }
-
-    private setStyle(style: { fill?: string, stroke?: string } = null) {
-        if (style) {
-            const {fill, stroke} = style;
-            this.c.fillStyle = fill || this.c.fillStyle;
-            this.c.strokeStyle = stroke || this.c.strokeStyle;
-        }
-    }
-
-    private getRenderMethod(style: { fill?: string, stroke?: string } = null){
-        if (style && style.fill) {
-            return this.c.fill.bind(this.c);
-        }
-        return this.c.stroke.bind(this.c);
     }
 
     public newFrame(center: Coordinate,
@@ -42,17 +28,16 @@ export class Renderer {
         this.c.fillRect(0, 0, this.canvasSize.w, this.canvasSize.h);
     }
 
-    point(point: Coordinate3D, radius: number = 1, style: { fill?: string, stroke?: string } = null) {
-        this.setStyle(style);
+    point(point: Coordinate3D, radius: number = 1, style: RenderStyle = null) {
+        ColorRenderable.setStyle(style, this.c);
         const p = positionCalculation(point, this.center, this.wordSize, this.canvasSize, this.distance);
         this.c.beginPath();
         this.c.arc(p.x, p.y, radius, 0, 2 * Math.PI);
-        this.getRenderMethod(style)();
+        ColorRenderable.getRenderMethod(style, this.c)();
     }
 
-    line(from: Coordinate3D, to: Coordinate3D, width: number = null, stroke: string = null){
-        this.c.lineWidth = width || this.c.lineWidth;
-        this.c.strokeStyle = stroke || this.c.strokeStyle;
+    line(from: Coordinate3D, to: Coordinate3D, style: RenderStyle = null){
+        ColorRenderable.setStyle(style, this.c);
         const f = positionCalculation(from, this.center, this.wordSize, this.canvasSize, this.distance);
         const t = positionCalculation(to, this.center, this.wordSize, this.canvasSize, this.distance);
         this.c.beginPath();
@@ -61,9 +46,17 @@ export class Renderer {
         this.c.stroke();
     }
 
-    lines(lines: [Coordinate3D, Coordinate3D][], width: number = null, stroke: string = null ){
+    lines(lines: [Coordinate3D, Coordinate3D][], style: RenderStyle = null){
         for(const line of lines){
-            this.line(line[0], line[1], width, stroke);
+            this.line(line[0], line[1], style);
         }
+    }
+
+    render(o: Renderable){
+        o.render(this.c,
+            this.center,
+            this.wordSize,
+            this.canvasSize,
+            this.distance);
     }
 }

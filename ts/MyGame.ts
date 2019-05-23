@@ -1,7 +1,7 @@
 import {Renderer} from "./Renderer";
 import {Coordinate, Coordinate3D, Rect} from "./entities";
-import generator from "./generator";
 import {TimeManager} from "./TimeManager";
+import {ColorRenderable, RenderableCube, RocketRenderable, WorldRenderable} from "./RenderableEntities";
 
 export class MyGame {
     private canvas: HTMLCanvasElement;
@@ -17,14 +17,20 @@ export class MyGame {
     start() {
         const center = new Coordinate(4, 3);
         const word = new Rect(8, 6);
-        const distance = 10;
+        const distance = 20;
         const timing = new TimeManager();
 
-        let moved = 0;
+        const userCoord = new Coordinate3D();
+        this.canvas.addEventListener('mousemove', (e) => {
+            //TODO move better
+            this.canvas.requestPointerLock();
+            userCoord.x += e.movementX / 1000.0;
+            userCoord.z -= e.movementY / 1000.0;
+        });
 
         const loop = () => {
             timing.newFrame();
-            timing.reportLastSecond();
+            //timing.reportCurrent();
             const delta = timing.delta();
 
             this.render.newFrame(
@@ -33,16 +39,24 @@ export class MyGame {
                 distance
             );
 
-            moved += delta;
-            this.render.lines(
-                generator.world(word.w, word.h, 10, moved),
-                1,
-                '#000000'
+            userCoord.y += delta;
+            this.render.render(
+                new ColorRenderable(
+                    {stroke: '#000000', width: 1},
+                    new WorldRenderable(word.w, word.h, 20, 0/*moved*/),
+                )
             );
-            this.render.lines(
-                generator.cube(new Coordinate3D(2,5, 2)),
-                1,
-                '#FF0000'
+            this.render.render(
+                new ColorRenderable(
+                    {stroke: '#0000FF'},
+                    new RenderableCube(2, 5, 2)
+                )
+            );
+            this.render.render(
+                new ColorRenderable(
+                    {stroke: '#FF0000', width: 2},
+                    new RocketRenderable(userCoord.x, userCoord.y, userCoord.z)
+                )
             );
 
             window.requestAnimationFrame(loop);

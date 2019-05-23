@@ -1,9 +1,16 @@
 {
   "compilerOptions": {
     "module": "amd",
-    "target": "es5",
+    "target": "es3",
     "sourceMap": true,
-    "outFile": "./script.js"
+    "outFile": "./script.js",
+    "lib": [
+      "dom",
+      "es5",
+      "scripthost",
+      "es2015.iterable"
+    ],
+    "downlevelIteration": true,
   },
   "include": [
     "ts/**/*"
