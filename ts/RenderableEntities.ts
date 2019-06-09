@@ -1,4 +1,4 @@
-import {Coordinate, Coordinate3D, Rect} from "./entities";
+import {Coordinate, Coordinate3D, Rect} from "./Entities";
 import {positionCalculation} from "./positionCalculation";
 
 export type RenderStyle = { fill?: string, stroke?: string, width?: number };

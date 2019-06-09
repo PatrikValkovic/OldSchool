@@ -1,4 +1,4 @@
-import {Coordinate, Coordinate3D, Rect} from "./entities";
+import {Coordinate, Coordinate3D, Rect} from "./Entities";
 
 function _y(y: number, h: number): number{
     return h - y;
