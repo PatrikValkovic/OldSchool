@@ -2,6 +2,7 @@ import {Renderer} from "./Renderer";
 import {TimeManager} from "./TimeManager";
 import {levels} from "./levels";
 import {ILevel} from "./ILevel";
+import {EventEngine} from "./EventEngine";
 
 export class MyGame {
     private readonly canvas: HTMLCanvasElement;
@@ -16,16 +17,21 @@ export class MyGame {
 
     start() {
         const timing = new TimeManager();
+        const events = new EventEngine();
+
+        events.attach(this.canvas);
         const l = levels();
         let level: ILevel = l.next().value;
 
         const loop = () => {
             timing.newFrame();
             timing.reportCurrent();
+
+            events.nextFrame();
             const delta = timing.delta();
 
             level.nextFrame();
-            level.update(delta);
+            level.update(delta, events);
             level.render(this.render);
             if(level.finished()){
                 level = l.next().value;

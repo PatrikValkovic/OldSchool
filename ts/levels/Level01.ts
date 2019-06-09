@@ -2,6 +2,7 @@ import {ILevel} from "../ILevel";
 import {Renderer} from "../Renderer";
 import {Coordinate, Coordinate3D, Rect} from "../Entities";
 import {ColorRenderable, RenderableCube, RocketRenderable, WorldRenderable} from "../RenderableEntities";
+import {EventEngine} from "../EventEngine";
 
 export class Level01 implements ILevel {
 
@@ -16,8 +17,15 @@ export class Level01 implements ILevel {
     nextFrame(): void {
     }
 
-    update(delta: number): void {
+    update(delta: number, events: EventEngine): void {
         this.userCoordinates.y += delta;
+        this.userCoordinates.x += events.getState().horizontalMovement * delta;
+        this.userCoordinates.z += events.getState().verticalMovement * delta;
+
+        this.userCoordinates.x = Math.max(0, this.userCoordinates.x);
+        this.userCoordinates.x = Math.min(this.word.w, this.userCoordinates.x);
+        this.userCoordinates.z = Math.max(0, this.userCoordinates.z);
+        this.userCoordinates.z = Math.min(this.word.h, this.userCoordinates.z);
     }
 
     render(renderer: Renderer): void {
