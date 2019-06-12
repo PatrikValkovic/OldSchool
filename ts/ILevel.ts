@@ -7,6 +7,8 @@ export interface ILevel {
 
     update(delta: number, events: EventEngine): void;
 
+    collisions(): void;
+
     finished(): boolean;
 
     render(renderer: Renderer): void;

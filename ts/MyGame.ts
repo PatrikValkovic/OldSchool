@@ -32,6 +32,7 @@ export class MyGame {
 
             level.nextFrame();
             level.update(delta, events);
+            level.collisions();
             level.render(this.render);
             if(level.finished()){
                 level = l.next().value;

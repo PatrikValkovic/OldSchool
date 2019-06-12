@@ -33,12 +33,12 @@ export function positionCalculation(point: Coordinate3D,
 
 
     if(c){
-        //center
         const oldFill = c.fillStyle;
         const oldStroke = c.strokeStyle;
         const oldLineWidth = c.lineWidth;
         c.lineWidth = 1;
 
+        //center
         c.fillStyle = '#00FF00';
         c.beginPath();
         c.arc(Sx * w/wc, _y(Sy * h/hc, h), 5, 0, 2 * Math.PI);
@@ -51,7 +51,7 @@ export function positionCalculation(point: Coordinate3D,
         c.lineTo(Sx * w/wc, _y(Sy * h/hc, h));
         c.stroke();
 
-        // to center
+        // from (x,0) to center
         c.strokeStyle = 'rgba(0,0,0,0.1)';
         c.beginPath();
         c.moveTo(x * w/wc, _y(0, h));
