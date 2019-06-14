@@ -10,6 +10,9 @@ export class Renderer {
     private canvasSize: Rect = new Rect(0, 0);
     private distance: number;
 
+    private viewStart: number;
+    private viewDistance: number;
+
     constructor(context: CanvasRenderingContext2D) {
         this.c = context;
     }
@@ -17,12 +20,16 @@ export class Renderer {
     public newFrame(center: Coordinate,
                     wordSize: Rect,
                     distance: number,
+                    viewStart: number,
+                    viewDistance: number,
                     background: string = '#FFFFFF'){
         this.center = center;
         this.wordSize = wordSize;
         this.distance = distance;
         this.canvasSize.w = this.c.canvas.width;
         this.canvasSize.h = this.c.canvas.height;
+        this.viewStart = viewStart;
+        this.viewDistance = viewDistance;
 
         this.c.fillStyle = background;
         this.c.fillRect(0, 0, this.canvasSize.w, this.canvasSize.h);
@@ -57,6 +64,8 @@ export class Renderer {
             this.center,
             this.wordSize,
             this.canvasSize,
-            this.distance);
+            this.distance,
+            this.viewStart,
+            this.viewDistance);
     }
 }

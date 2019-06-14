@@ -10,16 +10,16 @@ export class GameCube {
         this.diffs = new Coordinate3D(dx, dy, dz);
     }
 
-    isVisible(userPos: number, distance: number){
-        const tile = Math.floor(userPos);
-        return this.coords.y + this.diffs.y > tile && this.coords.y < tile + distance;
+    isVisible(userPos: number, distance: number) {
+        return (userPos < this.coords.y && this.coords.y < userPos + distance) ||
+            (userPos < this.coords.y + this.diffs.y && this.coords.y + this.diffs.y < userPos + distance)
     }
 
-    getRenderable(userPos: number): RenderableCube {
+    getRenderable(): RenderableCube {
         const {x, y, z} = this.coords;
         const dx = this.diffs.x;
         const dy = this.diffs.y;
         const dz = this.diffs.z;
-        return new RenderableCube(x, y-userPos, z, dx, dy, dz)
+        return new RenderableCube(x, y, z, dx, dy, dz);
     }
 }

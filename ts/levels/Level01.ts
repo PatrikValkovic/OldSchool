@@ -9,7 +9,7 @@ export class Level01 implements ILevel {
 
     private center = new Coordinate(4, 3);
     private word = new Rect(32, 24);
-    private distance = 3;
+    private distance = 10;
     private userCoordinates = new Coordinate3D(4, 0, 3);
 
     private cubes = [
@@ -24,7 +24,8 @@ export class Level01 implements ILevel {
         new GameCube(5,25,4),
         new GameCube(5,25,5),
         new GameCube(1,26,1),
-        new GameCube(0, 5, 0, 1, 8, 1)
+        new GameCube(0, 5, 0, 1, 8, 1),
+        new GameCube(16, 25, 10, 4, 4, 4),
     ];
 
     constructor() {
@@ -59,13 +60,15 @@ export class Level01 implements ILevel {
         renderer.newFrame(
             this.center,
             this.word,
-            this.distance
+            this.distance,
+            this.userCoordinates.y,
+            20
         );
 
         renderer.render(
             new ColorRenderable(
                 {stroke: '#000000', width: 1},
-                new WorldRenderable(this.word.w / 4, this.word.h / 4, 20, this.userCoordinates.y),
+                new WorldRenderable(this.word.w, this.word.h, 41, this.userCoordinates.y),
             )
         );
         for(const c of this.cubes) {
@@ -73,14 +76,14 @@ export class Level01 implements ILevel {
                 renderer.render(
                     new ColorRenderable(
                         {stroke: '#0000FF', width: 2},
-                        c.getRenderable(this.userCoordinates.y),
+                        c.getRenderable(),
                     )
                 );
         }
         renderer.render(
             new ColorRenderable(
                 {stroke: '#FF0000', width: 2},
-                new RocketRenderable(this.userCoordinates.x, 1, this.userCoordinates.z)
+                new RocketRenderable(this.userCoordinates.x, this.userCoordinates.y + 1, this.userCoordinates.z)
             )
         );
     }

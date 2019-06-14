@@ -8,7 +8,9 @@ export abstract class Renderable {
                     center: Coordinate,
                     wordSize: Rect,
                     canvasSize: Rect,
-                    distance: number): void;
+                    distance: number,
+                    viewStart: number,
+                    viewDistance: number): void;
 }
 
 export abstract class LineRenderable extends Renderable {
@@ -18,15 +20,47 @@ export abstract class LineRenderable extends Renderable {
 
     private static p: Coordinate[] = [];
 
+    private recomputePoint(originalPoint: Coordinate3D,
+                           secondPoint: Coordinate3D,
+                           viewStart: number,
+                           viewDistance: number): Coordinate3D
+    {
+        if(originalPoint.y < viewStart){
+            const t = (viewStart - originalPoint.y) / (secondPoint.y - originalPoint.y);
+            return new Coordinate3D(
+                originalPoint.x + t * (secondPoint.x - originalPoint.x),
+                0,
+                originalPoint.z + t * (secondPoint.z - originalPoint.z)
+            );
+        }
+        else if(originalPoint.y > viewStart + viewDistance){
+            const t = (viewStart + viewDistance - originalPoint.y) / (secondPoint.y - originalPoint.y);
+            return new Coordinate3D(
+                originalPoint.x + t * (secondPoint.x - originalPoint.x),
+                viewDistance,
+                originalPoint.z + t * (secondPoint.z - originalPoint.z)
+            );
+        }
+        else
+            return new Coordinate3D(originalPoint.x, originalPoint.y - viewStart, originalPoint.z);
+    }
+
     render(context: CanvasRenderingContext2D,
            center: Coordinate,
            wordSize: Rect,
            canvasSize: Rect,
-           distance: number) {
+           distance: number,
+           viewStart: number,
+           viewDistance: number) {
         //TODO optimize
         for (const join of this.joins()) {
-            const f = positionCalculation(join[0], center, wordSize, canvasSize, distance);
-            const s = positionCalculation(join[1], center, wordSize, canvasSize, distance);
+            if ((join[0].y > viewStart + viewDistance && join[1].y > viewStart + viewDistance) ||
+                (join[0].y < viewStart && join[1].y < viewStart))
+                continue;
+            const firstPoint = this.recomputePoint(join[0], join[1], viewStart, viewDistance);
+            const secondPoint = this.recomputePoint(join[1], join[0], viewStart, viewDistance);
+            const f = positionCalculation(firstPoint, center, wordSize, canvasSize, distance);
+            const s = positionCalculation(secondPoint, center, wordSize, canvasSize, distance);
             context.beginPath();
             context.moveTo(f.x, f.y);
             context.lineTo(s.x, s.y);
@@ -65,9 +99,11 @@ export class ColorRenderable extends Renderable {
            center: Coordinate,
            wordSize: Rect,
            canvasSize: Rect,
-           distance: number): void {
+           distance: number,
+           viewStart: number,
+           viewDistance: number): void {
         ColorRenderable.setStyle(this.style, context);
-        this.obj.render(context, center, wordSize, canvasSize, distance)
+        this.obj.render(context, center, wordSize, canvasSize, distance, viewStart, viewDistance)
     }
 }
 
@@ -135,42 +171,43 @@ export class WorldRenderable extends LineRenderable {
 
     * joins(): IterableIterator<[Coordinate3D, Coordinate3D]> {
         const {width, height, depth, moved} = this;
+        const pos = Math.floor(moved);
         for (let i = 0; i <= width; i++) {
             yield [
-                new Coordinate3D(i, 0 - moved % 1, 0),
-                new Coordinate3D(i, depth - moved % 1, 0)
+                new Coordinate3D(i, pos, 0),
+                new Coordinate3D(i, depth + pos, 0)
             ];
             yield [
-                new Coordinate3D(i, 0 - moved % 1, height),
-                new Coordinate3D(i, depth - moved % 1, height)
+                new Coordinate3D(i, pos, height),
+                new Coordinate3D(i, depth + pos, height)
             ];
         }
         for (let i = 0; i <= height; i++) {
             yield [
-                new Coordinate3D(0, 0 - moved % 1, i),
-                new Coordinate3D(0, depth - moved % 1, i)
+                new Coordinate3D(0, pos, i),
+                new Coordinate3D(0, depth + pos, i)
             ];
             yield [
-                new Coordinate3D(width, 0 - moved % 1, i),
-                new Coordinate3D(width, depth - moved % 1, i)
+                new Coordinate3D(width, pos, i),
+                new Coordinate3D(width, depth + pos, i)
             ];
         }
         for (let i = 0; i <= depth; i++) {
             yield [
-                new Coordinate3D(0, i - moved % 1, 0),
-                new Coordinate3D(width, i - moved % 1, 0)
+                new Coordinate3D(0, i + pos, 0),
+                new Coordinate3D(width, i + pos, 0)
             ];
             yield [
-                new Coordinate3D(width, i - moved % 1, 0),
-                new Coordinate3D(width, i - moved % 1, height)
+                new Coordinate3D(width, i + pos, 0),
+                new Coordinate3D(width, i + pos, height)
             ];
             yield [
-                new Coordinate3D(width, i - moved % 1, height),
-                new Coordinate3D(0, i - moved % 1, height)
+                new Coordinate3D(width, i + pos, height),
+                new Coordinate3D(0, i + pos, height)
             ];
             yield [
-                new Coordinate3D(0, i - moved % 1, height),
-                new Coordinate3D(0, i - moved % 1, 0)
+                new Coordinate3D(0, i + pos, height),
+                new Coordinate3D(0, i + pos, 0)
             ]
         }
     }
