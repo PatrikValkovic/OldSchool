@@ -10,7 +10,7 @@
       "scripthost",
       "es2015.iterable"
     ],
-    "downlevelIteration": true,
+    "downlevelIteration": true
   },
   "include": [
     "ts/**/*"
