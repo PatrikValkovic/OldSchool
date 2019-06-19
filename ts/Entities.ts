@@ -27,6 +27,24 @@ export class Rect {
     }
 }
 
+export class Interval {
+    public start: number;
+    public end: number;
+
+
+    constructor(start: number = 0, end: number = 0) {
+        this.start = start;
+        this.end = end;
+    }
+
+    public intersect(second: Interval): boolean {
+        return (this.start <= second.start && second.start <= this.end) ||
+            (this.start <= second.end && second.end <= this.end) ||
+            (second.start <= this.start && this.start <= second.end) ||
+            (second.start <= this.end && this.end <= second.end);
+    }
+}
+
 export class Triangle3D {
     private readonly points: Coordinate3D[];
 
@@ -140,7 +158,7 @@ export class Triangle3D {
         return [t1, t2];
     }
 
-    private static intersectLineTriangle(start: Coordinate3D, direction: Coordinate3D, triangle: Triangle3D): number[] {
+    private static intersectLineTriangle(start: Coordinate3D, direction: Coordinate3D, triangle: Triangle3D): Interval {
         const intersects = [];
         for(const comb of [[0, 1], [1, 2], [0, 2]]) {
             const firstPoint = triangle.points[comb[0]];
@@ -153,7 +171,7 @@ export class Triangle3D {
                 intersects.push(lineMovement);
             }
         }
-        return intersects.sort();
+        return new Interval(intersects[0], intersects[1]);
     }
 
     private static canPointsIntersectPlane(first: Triangle3D, second: Triangle3D) {
@@ -222,10 +240,7 @@ export class Triangle3D {
         const fInterval = this.intersectLineTriangle(intersectPoint, intersectDirection, first);
         const sInterval = this.intersectLineTriangle(intersectPoint, intersectDirection, second);
 
-        return (fInterval[0] <= sInterval[0] && sInterval[0] <= fInterval[1]) ||
-            (fInterval[0] <= sInterval[1] && sInterval[1] <= fInterval[1]) ||
-            (sInterval[0] <= fInterval[0] && fInterval[0] <= sInterval[1]) ||
-            (sInterval[0] <= fInterval[1] && fInterval[1] <= sInterval[1]);
+        return fInterval.intersect(sInterval);
     }
 
 
