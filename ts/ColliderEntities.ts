@@ -1,4 +1,5 @@
-import {Coordinate3D, Interval, Triangle3D} from "./Entities";
+import {Coordinate3D, Interval} from "./Entities";
+import {Triangle3D} from "./Triangle3D";
 
 export abstract class Collider {
 
