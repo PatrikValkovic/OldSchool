@@ -4,11 +4,13 @@
     "target": "es3",
     "sourceMap": true,
     "outFile": "./script.js",
+    "allowJs": true,
     "lib": [
       "dom",
       "es5",
       "scripthost",
-      "es2015.iterable"
+      "es2015.iterable",
+      "es2015.promise"
     ],
     "downlevelIteration": true
   },
