@@ -17,7 +17,20 @@ export class Renderer {
         this.c = context;
     }
 
-    public newFrame(center: Coordinate,
+    context(): CanvasRenderingContext2D {
+        return this.c;
+    }
+
+    clear(style: RenderStyle) {
+        this.setStyle(style);
+        this.c.fillRect(0, 0, this.c.canvas.width, this.c.canvas.height);
+    }
+
+    setStyle(style: RenderStyle){
+        ColorRenderable.setStyle(style, this.c);
+    }
+
+    newFrame(center: Coordinate,
                     wordSize: Rect,
                     distance: number,
                     viewStart: number,
@@ -31,8 +44,7 @@ export class Renderer {
         this.viewStart = viewStart;
         this.viewDistance = viewDistance;
 
-        this.c.fillStyle = background;
-        this.c.fillRect(0, 0, this.canvasSize.w, this.canvasSize.h);
+        this.clear({fill: background});
     }
 
     point(point: Coordinate3D, radius: number = 1, style: RenderStyle = null) {

@@ -1,20 +1,28 @@
 import {settings} from "./Settings";
+import {sound} from "./SoundEngine";
+import * as _ from "lodash";
 
 export interface EventState {
+    pressed: {
+        Enter: boolean,
+    },
     verticalMovement: number;
     horizontalMovement: number;
     paused: boolean,
 }
 
 const defaultEventState: EventState = {
+    pressed: {
+        Enter: false,
+    },
     verticalMovement: 0,
     horizontalMovement: 0,
     paused: false,
 };
 
 export class PauseException {
-
 }
+
 
 export class EventEngine {
 
@@ -31,6 +39,7 @@ export class EventEngine {
 
     public attach(canvas: HTMLCanvasElement): void {
         window.addEventListener('keydown', (ev) => {
+            sound().resume();
             switch(ev.code){
                 case 'KeyW':
                 case 'ArrowUp':
@@ -51,6 +60,7 @@ export class EventEngine {
             }
         });
         window.addEventListener('keyup', (ev) => {
+            sound().resume();
             switch(ev.code){
                 case 'KeyW':
                 case 'ArrowUp':
@@ -71,9 +81,13 @@ export class EventEngine {
             }
         });
         window.addEventListener('keypress', (ev) => {
+            sound().resume();
             switch (ev.code) {
                 case 'KeyP':
                     this.currentFrameEvents.paused = !this.processingEvents.paused;
+                    break;
+                case 'Enter':
+                    this.currentFrameEvents.pressed.Enter = true;
                     break;
             }
         });
@@ -97,8 +111,9 @@ export class EventEngine {
     }
 
     public nextFrame(): void {
-        this.processingEvents = {...this.currentFrameEvents};
-        this.currentFrameEvents = {...defaultEventState};
+        this.processingEvents = this.currentFrameEvents;
+        this.currentFrameEvents = _.cloneDeep(defaultEventState);
+
         this.currentFrameEvents.paused = this.processingEvents.paused;
 
         if(this.pressedKeys.up)
