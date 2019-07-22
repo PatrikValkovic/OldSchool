@@ -1,17 +1,18 @@
 import {ILevel} from "../ILevel";
 import {Renderer} from "../Renderer";
-import {Coordinate, Coordinate3D, Rect} from "../Entities";
-import {ColorRenderable, RenderableCube, RocketRenderable, WorldRenderable} from "../RenderableEntities";
+import {Coordinate, Rect} from "../Entities";
+import {ColorRenderable, WorldRenderable} from "../RenderableEntities";
 import {EventEngine} from "../EventEngine";
-import {GameCube} from "../GameEntities";
+import {GameCube, GameRocket} from "../GameEntities";
 
 export class Level01 implements ILevel {
 
     private center = new Coordinate(4, 3);
-    private word = new Rect(32, 24);
+    private word = new Rect(8, 6);
     private distance = 10;
-    private userCoordinates = new Coordinate3D(4, 0, 3);
+    private readonly viewDistance = 20;
 
+    private user = new GameRocket();
     private cubes = [
         new GameCube(0,10,0),
         new GameCube(5,11,5),
@@ -29,27 +30,20 @@ export class Level01 implements ILevel {
     ];
 
     constructor() {
+        this.user.coords.x = 4;
+        this.user.coords.y = 1;
+        this.user.coords.z = 0.5;
     }
 
     nextFrame(): void {
     }
 
     update(delta: number, events: EventEngine): void {
-        this.userCoordinates.y += delta;
-        this.userCoordinates.x += events.getState().horizontalMovement * delta;
-        this.userCoordinates.z += events.getState().verticalMovement * delta;
+        this.user.coords.y += delta;
+        this.user.coords.x += events.getState().horizontalMovement * delta;
 
-        this.userCoordinates.x = Math.max(0, this.userCoordinates.x);
-        this.userCoordinates.x = Math.min(this.word.w, this.userCoordinates.x);
-        this.userCoordinates.z = Math.max(0, this.userCoordinates.z);
-        this.userCoordinates.z = Math.min(this.word.h, this.userCoordinates.z);
-
-        const relativeVert = 1 - 2 * this.userCoordinates.z / this.word.h;
-        const relativeHoriz = 1 - 2 * this.userCoordinates.x / this.word.w;
-        const centerMovementVert = 1.5;
-        const centerMovementHoriz = 2;
-        this.center.x = this.word.w / 2 - relativeHoriz * centerMovementHoriz;
-        this.center.y = this.word.h / 2 - relativeVert * centerMovementVert;
+        this.user.coords.x = Math.max(0, this.user.coords.x);
+        this.user.coords.x = Math.min(this.word.w, this.user.coords.x);
     }
 
     collisions(): void {
@@ -61,18 +55,18 @@ export class Level01 implements ILevel {
             this.center,
             this.word,
             this.distance,
-            this.userCoordinates.y,
-            20
+            this.user.coords.y,
+            this.viewDistance
         );
 
         renderer.render(
             new ColorRenderable(
                 {stroke: '#000000', width: 1},
-                new WorldRenderable(this.word.w, this.word.h, 41, this.userCoordinates.y),
+                new WorldRenderable(this.word.w, this.word.h, this.viewDistance + 1, this.user.coords.y),
             )
         );
         for(const c of this.cubes) {
-            if(c.isVisible(this.userCoordinates.y, 20))
+            if(c.isVisible(this.user.coords.y, 20))
                 renderer.render(
                     new ColorRenderable(
                         {stroke: '#0000FF', width: 2},
@@ -83,7 +77,7 @@ export class Level01 implements ILevel {
         renderer.render(
             new ColorRenderable(
                 {stroke: '#FF0000', width: 2},
-                new RocketRenderable(this.userCoordinates.x, this.userCoordinates.y + 1, this.userCoordinates.z)
+                this.user.getRenderable()
             )
         );
     }

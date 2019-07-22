@@ -3,17 +3,22 @@ import {settings} from "./Settings";
 export interface EventState {
     verticalMovement: number;
     horizontalMovement: number;
+    paused: boolean,
 }
 
 const defaultEventState: EventState = {
     verticalMovement: 0,
     horizontalMovement: 0,
+    paused: false,
 };
 
+export class PauseException {
+
+}
 
 export class EventEngine {
 
-    private currentSetting = settings();
+    private readonly currentSetting = settings();
 
     private pressedKeys = {
         up: false,
@@ -65,6 +70,14 @@ export class EventEngine {
                     break;
             }
         });
+        window.addEventListener('keypress', (ev) => {
+            switch (ev.code) {
+                case 'KeyP':
+                    this.currentFrameEvents.paused = !this.processingEvents.paused;
+                    break;
+            }
+        });
+        //TODO maybe remove
         canvas.requestPointerLock();
         window.addEventListener('mouseup', () => {
             canvas.requestPointerLock();
@@ -86,6 +99,7 @@ export class EventEngine {
     public nextFrame(): void {
         this.processingEvents = {...this.currentFrameEvents};
         this.currentFrameEvents = {...defaultEventState};
+        this.currentFrameEvents.paused = this.processingEvents.paused;
 
         if(this.pressedKeys.up)
             this.processingEvents.verticalMovement += this.currentSetting.keyboardSensitivity;
@@ -97,6 +111,12 @@ export class EventEngine {
             this.processingEvents.horizontalMovement += this.currentSetting.keyboardSensitivity;
 
         this.processingEvents = Object.freeze(this.processingEvents);
+    }
+
+    public checkPause(): void {
+        if(this.getState().paused){
+            throw new PauseException();
+        }
     }
 
     public getState(): EventState{

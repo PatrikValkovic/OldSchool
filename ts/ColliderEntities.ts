@@ -32,8 +32,8 @@ export abstract class Collider {
 
 export class ColliderCube extends Collider {
 
-    private pos: Coordinate3D;
-    private size: Coordinate3D;
+    private readonly pos: Coordinate3D;
+    private readonly size: Coordinate3D;
 
     constructor(pos: Coordinate3D, size: Coordinate3D) {
         super();

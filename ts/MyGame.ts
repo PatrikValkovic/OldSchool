@@ -7,7 +7,7 @@ import {EventEngine} from "./EventEngine";
 export class MyGame {
     private readonly canvas: HTMLCanvasElement;
     private readonly context: CanvasRenderingContext2D;
-    private render: Renderer;
+    private readonly render: Renderer;
 
     constructor(canvas: HTMLCanvasElement) {
         this.canvas = canvas;
@@ -24,21 +24,26 @@ export class MyGame {
         let level: ILevel = l.next().value;
 
         const loop = () => {
-            timing.newFrame();
-            timing.reportCurrent();
+            try {
+                events.nextFrame();
+                events.checkPause();
 
-            events.nextFrame();
-            const delta = timing.delta();
+                timing.newFrame();
+                //timing.reportCurrent();
+                const delta = timing.delta();
 
-            level.nextFrame();
-            level.update(delta, events);
-            level.collisions();
-            level.render(this.render);
-            if(level.finished()){
-                level = l.next().value;
+                level.nextFrame();
+                level.update(delta, events);
+                level.collisions();
+                level.render(this.render);
+                if (level.finished()) {
+                    level = l.next().value;
+                }
             }
-
-            window.requestAnimationFrame(loop);
+            catch(e){}
+            finally{
+                window.requestAnimationFrame(loop)
+            }
         };
         window.requestAnimationFrame(loop);
     }

@@ -1,5 +1,5 @@
 import {Coordinate3D} from "./Entities";
-import {RenderableCube} from "./RenderableEntities";
+import {Renderable, RenderableCube, RocketRenderable} from "./RenderableEntities";
 
 export class GameCube {
     private readonly coords: Coordinate3D;
@@ -21,5 +21,22 @@ export class GameCube {
         const dy = this.diffs.y;
         const dz = this.diffs.z;
         return new RenderableCube(x, y, z, dx, dy, dz);
+    }
+}
+
+export class GameRocket {
+    public readonly coords: Coordinate3D;
+
+    constructor() {
+        this.coords = new Coordinate3D();
+    }
+
+    isVisible(userPos: number, distance: number){
+        return true;
+    }
+
+    getRenderable(): Renderable {
+        const {x, y, z} = this.coords;
+        return new RocketRenderable(x, y, z);
     }
 }
