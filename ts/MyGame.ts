@@ -1,6 +1,6 @@
 import {Renderer} from "./Renderer";
 import {TimeManager} from "./TimeManager";
-import {levels} from "./levels";
+import {levels} from "./levels/levels";
 import {ILevel} from "./ILevel";
 import {EventEngine} from "./EventEngine";
 

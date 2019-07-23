@@ -6,7 +6,6 @@ import {sound} from "../SoundEngine";
 export class Level02 implements ILevel {
 
     private shouldEnd = false;
-
     private image;
 
     constructor() {
@@ -17,7 +16,7 @@ export class Level02 implements ILevel {
         });
         image.src = "res/img/Intro.jpg";
 
-        sound().prepare("res/sound/Alexander Ehlers - Warped.mp3").then((bufer) => {
+        sound().prepare("res/sound/Bladehand.mp3").then((bufer) => {
            sound().playInLoop(bufer);
         });
     }
@@ -38,10 +37,6 @@ export class Level02 implements ILevel {
             renderer.clear({fill: '#FFFFFF'});
             const c = renderer.context();
             c.drawImage(this.image, 0, 0, c.canvas.width, c.canvas.height);
-
-            c.font = '12px Arial';
-            c.textAlign = 'left';
-            c.fillText("Press Enter to skip", 4, 16);
         }
     }
 

@@ -1,6 +1,12 @@
+export class SoundWrapper {
+    constructor(public gain: GainNode,
+                public buffer: AudioBufferSourceNode){
+    }
+}
+
 export class SoundEngine {
     private context: AudioContext;
-    private looping: AudioBufferSourceNode[] = [];
+    private looping: SoundWrapper[] = [];
 
     constructor(){
         this.context = new AudioContext();
@@ -20,25 +26,33 @@ export class SoundEngine {
         return result;
     }
 
-    playInLoop(buffer: AudioBuffer, replacePrev = true) {
+    playInLoop(buffer: AudioBuffer, replacePrev = true): SoundWrapper {
         if(replacePrev){
             for(const source of this.looping)
-                source.stop();
+                source.gain.disconnect();
             this.looping = [];
         }
-        const source = this.context.createBufferSource();
-        this.looping.push(source);
-        source.buffer = buffer;
-        source.loop = true;
-        source.connect(this.context.destination);
-        source.start(0);
+
+        const wrapper = this.playNow(buffer);
+        wrapper.buffer.loop = true;
+        return wrapper;
     }
 
-    playNow(buffer: AudioBuffer){
+    playNow(buffer: AudioBuffer): SoundWrapper {
+        const gain = this.context.createGain();
+        gain.gain.value = 1;
+        gain.connect(this.context.destination);
+
         const source = this.context.createBufferSource();
         source.buffer = buffer;
-        source.connect(this.context.destination);
+        source.connect(gain);
         source.start(0);
+
+        return new SoundWrapper(gain, source);
+    }
+
+    getLooping(): SoundWrapper[] {
+        return [...this.looping];
     }
 
     resume(){

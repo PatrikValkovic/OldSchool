@@ -4,6 +4,7 @@ import {Coordinate, Rect} from "../Entities";
 import {ColorRenderable, WorldRenderable} from "../RenderableEntities";
 import {EventEngine} from "../EventEngine";
 import {GameCube, GameRocket} from "../GameEntities";
+import {sound} from "../SoundEngine";
 
 export class LevelTesting implements ILevel {
 
@@ -33,6 +34,8 @@ export class LevelTesting implements ILevel {
         this.user.coords.x = 4;
         this.user.coords.y = 1;
         this.user.coords.z = 0.5;
+
+
     }
 
     nextFrame(): void {

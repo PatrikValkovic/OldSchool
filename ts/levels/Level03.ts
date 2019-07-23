@@ -5,7 +5,6 @@ import {EventEngine} from "../EventEngine";
 export class Level03 implements ILevel {
 
     private shouldEnd = false;
-
     private image;
 
     constructor() {
@@ -33,11 +32,6 @@ export class Level03 implements ILevel {
             renderer.clear({fill: '#FFFFFF'});
             const c = renderer.context();
             c.drawImage(this.image, 0, 0, c.canvas.width, c.canvas.height);
-
-            renderer.setStyle({fill: '#000000'});
-            c.font = '12px Arial';
-            c.textAlign = 'left';
-            c.fillText("Press Enter to skip", 4, 16);
         }
     }
 
