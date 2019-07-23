@@ -26,11 +26,11 @@ export class MyGame {
         const loop = () => {
             try {
                 events.nextFrame();
-                events.checkPause();
-
                 timing.newFrame();
                 //timing.reportCurrent();
                 const delta = timing.delta();
+
+                events.checkPause();
 
                 level.nextFrame();
                 level.update(delta, events);

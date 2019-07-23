@@ -1,6 +1,6 @@
 const defaultSettings = {
     keyboardSensitivity: 3,
-    mouseSensetivity: 0.1,
+    mouseSensetivity: 0.2,
 };
 
 export function settings() {

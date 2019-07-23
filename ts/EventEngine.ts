@@ -81,6 +81,7 @@ export class EventEngine {
             }
         });
         window.addEventListener('keypress', (ev) => {
+            canvas.requestPointerLock();
             sound().resume();
             switch (ev.code) {
                 case 'KeyP':
@@ -91,22 +92,21 @@ export class EventEngine {
                     break;
             }
         });
-        //TODO maybe remove
-        canvas.requestPointerLock();
         window.addEventListener('mouseup', () => {
             canvas.requestPointerLock();
+        });
+        window.addEventListener('mousedown', () => {
+
         });
         window.addEventListener('mousemove', (ev) => {
             this.currentFrameEvents.verticalMovement -= ev.movementY * this.currentSetting.mouseSensetivity;
             this.currentFrameEvents.horizontalMovement += ev.movementX * this.currentSetting.mouseSensetivity;
         });
         document.addEventListener('pointerlockchange', (ev) => {
-            console.log('lock changed', ev)
-            /* TODO handle somehow */
+            this.currentFrameEvents.paused = !document.pointerLockElement;
         });
         document.addEventListener('pointerlockerror', (ev) => {
-            console.log('lock error', ev)
-            /* TODO handle somehow */
+            console.error('Couldn\'t lock the mouse pointer', ev)
         })
     }
 
