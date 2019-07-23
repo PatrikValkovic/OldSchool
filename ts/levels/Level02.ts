@@ -4,15 +4,13 @@ import {EventEngine} from "../EventEngine";
 import {sound} from "../SoundEngine";
 
 export class Level02 implements ILevel {
-
-    private shouldEnd = false;
     private image;
 
-    constructor() {
+    constructor(timeoutInvoke: () => void) {
         const image = new Image();
         image.addEventListener('load', () => {
             this.image = image;
-            setTimeout(() => {this.shouldEnd = true}, 6000);
+            timeoutInvoke();
         });
         image.src = "res/img/Intro.jpg";
 
@@ -25,8 +23,6 @@ export class Level02 implements ILevel {
     }
 
     update(delta: number, events: EventEngine): void {
-        if(events.getState().pressed.Enter)
-            this.shouldEnd = true;
     }
 
     collisions(): void {
@@ -41,7 +37,7 @@ export class Level02 implements ILevel {
     }
 
     finished(): boolean {
-        return this.shouldEnd;
+        return false;
     }
 
 }
