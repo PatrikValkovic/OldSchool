@@ -1,6 +1,7 @@
 import {ILevel} from "../ILevel";
 import {Renderer} from "../Renderer";
 import {EventEngine} from "../EventEngine";
+import {settings} from "../Settings";
 
 export class SkippableLevel implements ILevel
 {
@@ -29,7 +30,7 @@ export class SkippableLevel implements ILevel
 
         const c = renderer.context();
         renderer.setStyle({fill: this.foreground});
-        c.font = '12px Arial';
+        c.font = `12px "${settings().font}"`;
         c.textAlign = 'left';
         c.fillText("Press Enter to skip", 4, 16);
     }
