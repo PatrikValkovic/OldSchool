@@ -29,9 +29,11 @@ export class SkippableLevel implements ILevel
         this.innerLevel.render(renderer);
 
         const c = renderer.context();
-        renderer.setStyle({fill: this.foreground});
-        c.font = `12px "${settings().font}"`;
-        c.textAlign = 'left';
+        renderer.setStyle({
+            fill: this.foreground,
+            font: `12px "${settings().font}"`,
+            textAlign: 'left',
+        });
         c.fillText("Press Enter to skip", 4, 16);
     }
 

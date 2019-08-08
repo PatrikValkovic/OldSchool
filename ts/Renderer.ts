@@ -1,6 +1,14 @@
 import {Coordinate, Coordinate3D, Rect} from "./Entities";
 import {positionCalculation} from "./positionCalculation";
-import {ColorRenderable, Renderable, RenderStyle} from "./RenderableEntities";
+import {Renderable} from "./RenderableEntities";
+
+export type RenderStyle = {
+    fill?: string,
+    stroke?: string,
+    width?: number,
+    font?: string,
+    textAlign?: CanvasTextAlign,
+};
 
 export class Renderer {
     private c: CanvasRenderingContext2D;
@@ -21,13 +29,31 @@ export class Renderer {
         return this.c;
     }
 
+    public static setStyle(style: RenderStyle, context: CanvasRenderingContext2D) {
+        if (style) {
+            const {fill, stroke, width, font, textAlign} = style;
+            context.fillStyle = fill || context.fillStyle;
+            context.strokeStyle = stroke || context.strokeStyle;
+            context.lineWidth = width || context.lineWidth;
+            context.font = font || context.font;
+            context.textAlign = textAlign || textAlign;
+        }
+    }
+
+    public static getRenderMethod(style: RenderStyle, context: CanvasRenderingContext2D) {
+        if (style && style.fill) {
+            return context.fill.bind(context);
+        }
+        return context.stroke.bind(context);
+    }
+
     clear(style: RenderStyle) {
         this.setStyle(style);
         this.c.fillRect(0, 0, this.c.canvas.width, this.c.canvas.height);
     }
 
     setStyle(style: RenderStyle){
-        ColorRenderable.setStyle(style, this.c);
+        Renderer.setStyle(style, this.c);
     }
 
     newFrame(center: Coordinate,
@@ -48,15 +74,15 @@ export class Renderer {
     }
 
     point(point: Coordinate3D, radius: number = 1, style: RenderStyle = null) {
-        ColorRenderable.setStyle(style, this.c);
+        Renderer.setStyle(style, this.c);
         const p = positionCalculation(point, this.center, this.wordSize, this.canvasSize, this.distance);
         this.c.beginPath();
         this.c.arc(p.x, p.y, radius, 0, 2 * Math.PI);
-        ColorRenderable.getRenderMethod(style, this.c)();
+        Renderer.getRenderMethod(style, this.c)();
     }
 
     line(from: Coordinate3D, to: Coordinate3D, style: RenderStyle = null){
-        ColorRenderable.setStyle(style, this.c);
+        Renderer.setStyle(style, this.c);
         const f = positionCalculation(from, this.center, this.wordSize, this.canvasSize, this.distance);
         const t = positionCalculation(to, this.center, this.wordSize, this.canvasSize, this.distance);
         this.c.beginPath();

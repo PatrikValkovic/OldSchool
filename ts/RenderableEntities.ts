@@ -1,7 +1,6 @@
 import {Coordinate, Coordinate3D, Rect} from "./Entities";
 import {positionCalculation} from "./positionCalculation";
-
-export type RenderStyle = { fill?: string, stroke?: string, width?: number };
+import {Renderer, RenderStyle} from "./Renderer";
 
 export abstract class Renderable {
     abstract render(context: CanvasRenderingContext2D,
@@ -79,22 +78,6 @@ export class ColorRenderable extends Renderable {
         this.obj = obj;
     }
 
-    public static setStyle(style: RenderStyle, context: CanvasRenderingContext2D) {
-        if (style) {
-            const {fill, stroke, width} = style;
-            context.fillStyle = fill || context.fillStyle;
-            context.strokeStyle = stroke || context.strokeStyle;
-            context.lineWidth = width || context.lineWidth;
-        }
-    }
-
-    public static getRenderMethod(style: RenderStyle, context: CanvasRenderingContext2D) {
-        if (style && style.fill) {
-            return context.fill.bind(context);
-        }
-        return context.stroke.bind(context);
-    }
-
     render(context: CanvasRenderingContext2D,
            center: Coordinate,
            wordSize: Rect,
@@ -102,7 +85,7 @@ export class ColorRenderable extends Renderable {
            distance: number,
            viewStart: number,
            viewDistance: number): void {
-        ColorRenderable.setStyle(this.style, context);
+        Renderer.setStyle(this.style, context);
         this.obj.render(context, center, wordSize, canvasSize, distance, viewStart, viewDistance)
     }
 }
