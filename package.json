@@ -1,0 +1,24 @@
+{
+  "name": "oldschool",
+  "version": "0.0.1",
+  "description": "",
+  "main": "index.html",
+  "dependencies": {
+    "@types/lodash": "^4.14.136",
+    "lodash": "^4.17.15"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/PatrikValkovic/OldSchool.git"
+  },
+  "author": "Patrik Valkovic",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/PatrikValkovic/OldSchool/issues"
+  },
+  "homepage": "https://github.com/PatrikValkovic/OldSchool#readme"
+}
