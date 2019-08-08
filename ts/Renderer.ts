@@ -98,12 +98,6 @@ export class Renderer {
     }
 
     render(o: Renderable){
-        o.render(this.c,
-            this.center,
-            this.wordSize,
-            this.canvasSize,
-            this.distance,
-            this.viewStart,
-            this.viewDistance);
+        o.render(this.c, this.canvasSize, this.center, this.wordSize, this.distance, this.viewStart, this.viewDistance);
     }
 }

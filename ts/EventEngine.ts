@@ -107,7 +107,7 @@ export class EventEngine {
         });
         document.addEventListener('pointerlockerror', (ev) => {
             console.error('Couldn\'t lock the mouse pointer', ev)
-        })
+        });
     }
 
     public nextFrame(): void {
