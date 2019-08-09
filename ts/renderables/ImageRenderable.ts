@@ -24,7 +24,14 @@ export class ImageRenderable extends Renderable {
         const dWidth = this.destRect && this.destRect.w;
         const dHeight = this.destRect && this.destRect.h;
 
-        context.drawImage(image, sx, sy, sWidth, sHeight, dx, dy, dWidth, dHeight);
+        if(this.sourcePos && this.sourceRect && this.sourceRect && this.destRect)
+            return context.drawImage(image, sx, sy, sWidth, sHeight, dx, dy, dWidth, dHeight);
+        if(this.destPos && this.destRect)
+            return context.drawImage(image, dx, dy, dWidth, dHeight);
+        if(this.destPos)
+            return context.drawImage(image, dx, dy);
+        else
+            throw new Error("Couldn't draw image, because parameters are missing");
     }
 
 }

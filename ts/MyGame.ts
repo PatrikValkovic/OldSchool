@@ -27,6 +27,8 @@ export class MyGame {
             try {
                 events.nextFrame();
                 timing.newFrame();
+                this.render.newFrame();
+
                 //timing.reportCurrent();
                 const delta = timing.delta();
 

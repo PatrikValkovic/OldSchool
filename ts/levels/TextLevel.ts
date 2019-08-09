@@ -24,7 +24,6 @@ export class TextLevel implements ILevel {
     }
 
     render(renderer: Renderer): void {
-        renderer.newFrame();
         renderer.clear({fill: '#FFFFFF'});
 
         const borders = 25;

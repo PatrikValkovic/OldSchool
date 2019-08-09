@@ -62,13 +62,13 @@ export class Renderer {
                     viewStart: number = null,
                     viewDistance: number = null,
                     background: string = '#FFFFFF'){
-        this.center = center;
-        this.wordSize = wordSize;
-        this.distance = distance;
+        this.center = center || this.center;
+        this.wordSize = wordSize || this.wordSize;
+        this.distance = distance || this.distance;
         this.canvasSize.w = this.c.canvas.width;
         this.canvasSize.h = this.c.canvas.height;
-        this.viewStart = viewStart;
-        this.viewDistance = viewDistance;
+        this.viewStart = viewStart || this.viewStart;
+        this.viewDistance = viewDistance || this.viewDistance;
 
         this.clear({fill: background});
     }

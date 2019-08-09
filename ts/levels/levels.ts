@@ -12,16 +12,24 @@ export function* levels(): IterableIterator<ILevel> {
     //yield new TextLevel("Hello here and welcome to my game. I am so happy that you are here and this is sooo long text", 40);
     //yield new LevelTesting();
 
+    // Press enter to continue
     yield new Level01();
+
+    // ITnetwork logo
     yield new SkippableLevel(
         new TimedLevel(
             (timeoutInvoke) => new Level02(timeoutInvoke),
             6000),
         '#FFFFFF');
+
+    // Warfrog Interactive logo
     yield new SkippableLevel(
         new TimedLevel(
             (timeoutInvoke) => new Level03(timeoutInvoke),
             6000),
         '#000000');
+
+    // Introduction conversation
+
     yield new LevelTesting();
 }
