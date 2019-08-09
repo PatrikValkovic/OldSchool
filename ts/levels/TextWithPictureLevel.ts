@@ -37,13 +37,15 @@ export class TextWithPictureLevel implements ILevel {
 
         const h = <number>renderer.context().canvas.height - 2 * borders;
         const ratio = <number>this.imgSource.height / <number>this.imgSource.width;
+        const w = h / ratio;
+        const x = this.imgPos === 'left' ? 0 : <number>renderer.context().canvas.width - borders - w;
         renderer.render(
             new ImageRenderable(
                 this.imgSource,
-                new Coordinate(borders, borders),
+                new Coordinate(x, borders),
                 new Rect(<number>this.imgSource.width, <number>this.imgSource.height),
-                new Coordinate(),
-                new Rect(h * ratio, h),
+                new Coordinate(0, 0),
+                new Rect(w, h),
             )
         );
 
