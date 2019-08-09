@@ -3,7 +3,7 @@ import {Renderer} from "../Renderer";
 import {Coordinate, Rect} from "../Entities";
 import {EventEngine} from "../EventEngine";
 import {GameCube, GameRocket} from "../GameEntities";
-import {ColorRenderable} from "../renderables/ColorRenderable";
+import {StyleRenderable} from "../renderables/StyleRenderable";
 import {WorldRenderable} from "../renderables/WorldRenderable";
 
 export class LevelTesting implements ILevel {
@@ -63,7 +63,7 @@ export class LevelTesting implements ILevel {
         );
 
         renderer.render(
-            new ColorRenderable(
+            new StyleRenderable(
                 {stroke: '#000000', width: 1},
                 new WorldRenderable(this.word.w, this.word.h, this.viewDistance + 1, this.user.coords.y),
             )
@@ -71,14 +71,14 @@ export class LevelTesting implements ILevel {
         for(const c of this.cubes) {
             if(c.isVisible(this.user.coords.y, 20))
                 renderer.render(
-                    new ColorRenderable(
+                    new StyleRenderable(
                         {stroke: '#0000FF', width: 2},
                         c.getRenderable(),
                     )
                 );
         }
         renderer.render(
-            new ColorRenderable(
+            new StyleRenderable(
                 {stroke: '#FF0000', width: 2},
                 this.user.getRenderable()
             )

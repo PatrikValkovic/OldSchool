@@ -21,7 +21,7 @@ export class Rect {
     public h: number;
     public w: number;
 
-    constructor(w: number, h: number) {
+    constructor(w: number = 0, h: number = 0) {
         this.h = h;
         this.w = w;
     }

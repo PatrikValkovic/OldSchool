@@ -2,7 +2,7 @@ import {Renderable} from "./Renderable";
 import {Renderer, RenderStyle} from "../Renderer";
 import {Coordinate, Rect} from "../Entities";
 
-export class ColorRenderable extends Renderable {
+export class StyleRenderable extends Renderable {
     private readonly style: RenderStyle;
     private readonly obj: Renderable;
 

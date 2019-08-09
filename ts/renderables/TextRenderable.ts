@@ -76,7 +76,7 @@ export class TextRenderable extends Renderable {
             const line = this.lines[i];
             context.fillText(line,
                 this.renderPosition.x,
-                this.renderPosition.y + i * this.fontSize * 1.3);
+                this.renderPosition.y + i * this.fontSize * 1.3 + this.fontSize);
         }
         context.textAlign = oldTextAlignment;
     }
