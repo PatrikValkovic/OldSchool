@@ -2,6 +2,8 @@ import {ILevel} from "../ILevel";
 import {Renderer} from "../Renderer";
 import {EventEngine} from "../EventEngine";
 import {settings} from "../Settings";
+import {Coordinate} from "../Entities";
+import {TextRenderable} from "../renderables/TextRenderable";
 
 export class Level01 implements ILevel {
 
@@ -21,14 +23,21 @@ export class Level01 implements ILevel {
     }
 
     render(renderer: Renderer): void {
+        renderer.newFrame();
         renderer.clear({fill: '#FFFFFF'});
 
-        const c = renderer.context();
-        const text = 'Press Enter to start';
-        c.fillStyle = '#000000';
-        c.textAlign = 'center';
-        c.font = `40px "${settings().font}"`;
-        c.fillText(text, c.canvas.width / 2, c.canvas.height / 2 + 30, c.canvas.width);
+        renderer.setStyle({
+            fill: '#000000',
+            font: `40px "${settings().font}"`,
+        });
+
+        renderer.render(new TextRenderable(
+           'Press Enter to start',
+           new Coordinate(0, 0),
+           40,
+           'center',
+           'center'
+        ));
     }
 
     finished(): boolean {

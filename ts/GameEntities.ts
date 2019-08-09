@@ -1,5 +1,7 @@
 import {Coordinate3D} from "./Entities";
-import {Renderable, RenderableCube, RocketRenderable} from "./RenderableEntities";
+import {Renderable} from "./renderables/Renderable";
+import {RenderableCube} from "./renderables/RenderableCube";
+import {RocketRenderable} from "./renderables/RocketRenderable";
 
 export class GameCube {
     private readonly coords: Coordinate3D;

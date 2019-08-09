@@ -1,6 +1,6 @@
 import {Coordinate, Coordinate3D, Rect} from "./Entities";
 import {positionCalculation} from "./positionCalculation";
-import {Renderable} from "./RenderableEntities";
+import {Renderable} from "./renderables/Renderable";
 
 export type RenderStyle = {
     fill?: string,
@@ -11,7 +11,7 @@ export type RenderStyle = {
 };
 
 export class Renderer {
-    private c: CanvasRenderingContext2D;
+    private readonly c: CanvasRenderingContext2D;
 
     private center: Coordinate;
     private wordSize: Rect;
@@ -56,11 +56,11 @@ export class Renderer {
         Renderer.setStyle(style, this.c);
     }
 
-    newFrame(center: Coordinate,
-                    wordSize: Rect,
-                    distance: number,
-                    viewStart: number,
-                    viewDistance: number,
+    newFrame(center: Coordinate = null,
+                    wordSize: Rect = null,
+                    distance: number = null,
+                    viewStart: number = null,
+                    viewDistance: number = null,
                     background: string = '#FFFFFF'){
         this.center = center;
         this.wordSize = wordSize;
@@ -98,6 +98,14 @@ export class Renderer {
     }
 
     render(o: Renderable){
-        o.render(this.c, this.canvasSize, this.center, this.wordSize, this.distance, this.viewStart, this.viewDistance);
+        o.render(
+            this.c,
+            this.canvasSize,
+            this.center,
+            this.wordSize,
+            this.distance,
+            this.viewStart,
+            this.viewDistance
+        );
     }
 }

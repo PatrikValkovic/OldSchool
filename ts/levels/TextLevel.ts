@@ -2,8 +2,8 @@ import {ILevel} from "../ILevel";
 import {Renderer} from "../Renderer";
 import {EventEngine} from "../EventEngine";
 import {settings} from "../Settings";
-import {TextRenderable} from "../RenderableEntities";
-import {Coordinate} from "../Entities";
+import {Coordinate, Rect} from "../Entities";
+import {TextRenderable} from "../renderables/TextRenderable";
 
 
 export class TextLevel implements ILevel {
@@ -22,6 +22,7 @@ export class TextLevel implements ILevel {
     }
 
     render(renderer: Renderer): void {
+        renderer.newFrame();
         const c = renderer.context();
 
         renderer.clear({fill: '#FFFFFF'});
@@ -51,7 +52,7 @@ export class TextLevel implements ILevel {
                 this.fontSize,
                 'left',
                 'start',
-                new Coordinate(maxWidth, maxHeight)
+                new Rect(maxWidth, maxHeight)
             );
         }
 

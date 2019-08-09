@@ -9,8 +9,8 @@ import {TextLevel} from "./TextLevel";
 
 export function* levels(): IterableIterator<ILevel> {
 
-    yield new TextLevel("Hello here and welcome to my game. I am so happy that you are here and this is sooo long text", 40);
-    yield new LevelTesting();
+    //yield new TextLevel("Hello here and welcome to my game. I am so happy that you are here and this is sooo long text", 40);
+    //yield new LevelTesting();
 
     yield new Level01();
     yield new SkippableLevel(
