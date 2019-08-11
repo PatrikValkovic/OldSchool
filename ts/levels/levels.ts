@@ -5,14 +5,12 @@ import {Level02} from "./Level02";
 import {Level03} from "./Level03";
 import {SkippableLevel} from "./SkippableLevel";
 import {TimedLevel} from "./TimedLevel";
-import {TextLevel} from "./TextLevel";
+import {SoundLevel} from "./SoundLevel";
+import {Level04} from "./Level04";
 
 export function* levels(): IterableIterator<ILevel> {
 
-    //yield new TextLevel("Hello here and welcome to my game. I am so happy that you are here and this is sooo long text", 40);
-    //yield new LevelTesting();
-
-    // Press enter to continue
+    // Press enter to
     yield new Level01();
 
     // ITnetwork logo
@@ -30,6 +28,15 @@ export function* levels(): IterableIterator<ILevel> {
         '#000000');
 
     // Introduction conversation
+    yield new SkippableLevel(
+        new TimedLevel(timeoutInvoke =>
+        new SoundLevel(
+            "res/sound/introduction_speech.mp3",
+            timeoutInvoke,
+            new Level04()
+        ), 0),
+        '#000000'
+    );
 
     yield new LevelTesting();
 }

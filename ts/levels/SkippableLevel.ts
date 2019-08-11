@@ -8,7 +8,7 @@ export class SkippableLevel implements ILevel
     private shouldEnd = false;
 
     constructor(private innerLevel: ILevel,
-                private foreground: string){
+                private foreground: string = '#FFFFFF'){
     }
 
     nextFrame(): void {

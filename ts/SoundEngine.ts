@@ -1,10 +1,10 @@
-export class SoundWrapper {
+class SoundWrapper {
     constructor(public gain: GainNode,
                 public buffer: AudioBufferSourceNode){
     }
 }
 
-export class SoundEngine {
+class SoundEngine {
     private context: AudioContext;
     private looping: SoundWrapper[] = [];
 
@@ -35,6 +35,7 @@ export class SoundEngine {
 
         const wrapper = this.playNow(buffer);
         wrapper.buffer.loop = true;
+        this.looping.push(wrapper);
         return wrapper;
     }
 
