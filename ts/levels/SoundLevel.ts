@@ -1,4 +1,4 @@
-import {ILevel} from "../ILevel";
+import {ILevel} from "./ILevel";
 import {EventEngine} from "../EventEngine";
 import {Renderer} from "../Renderer";
 import {sound} from "../SoundEngine";

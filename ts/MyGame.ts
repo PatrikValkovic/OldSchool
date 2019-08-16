@@ -1,8 +1,8 @@
 import {Renderer} from "./Renderer";
 import {TimeManager} from "./TimeManager";
 import {levels} from "./levels/levels";
-import {ILevel} from "./ILevel";
-import {EventEngine} from "./EventEngine";
+import {ILevel} from "./levels/ILevel";
+import {EventEngine, PauseException} from "./EventEngine";
 
 export class MyGame {
     private readonly canvas: HTMLCanvasElement;
@@ -42,7 +42,10 @@ export class MyGame {
                     level = l.next().value;
                 }
             }
-            catch(e){}
+            catch(e){
+                if(!(e instanceof PauseException))
+                    console.error(e);
+            }
             finally{
                 window.requestAnimationFrame(loop)
             }

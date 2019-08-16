@@ -7,8 +7,14 @@ export abstract class GameEntity<State> {
     public state: State;
     protected activeState: State;
 
+    protected constructor(defaultState: State){
+        this.state = defaultState;
+        this.applyState();
+    }
+
     applyState() {
-        this.activeState = deepFreeze(this.state);
+        this.activeState = _.cloneDeep(this.state);
+        deepFreeze(this.activeState);
     }
 
     rollbackState() {

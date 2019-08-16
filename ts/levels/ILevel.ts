@@ -1,5 +1,5 @@
-import {Renderer} from "./Renderer";
-import {EventEngine} from "./EventEngine";
+import {Renderer} from "../Renderer";
+import {EventEngine} from "../EventEngine";
 
 export interface ILevel {
 

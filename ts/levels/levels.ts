@@ -1,4 +1,4 @@
-import {ILevel} from "../ILevel";
+import {ILevel} from "./ILevel";
 import {Level01} from "./Level01";
 import {LevelTesting} from "./LevelTesting";
 import {Level02} from "./Level02";
@@ -9,6 +9,8 @@ import {SoundLevel} from "./SoundLevel";
 import {Level04} from "./Level04";
 
 export function* levels(): IterableIterator<ILevel> {
+
+    yield new LevelTesting();
 
     // Press enter to
     yield new Level01();

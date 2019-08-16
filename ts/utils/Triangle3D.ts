@@ -1,4 +1,4 @@
-import {Coordinate3D, Interval} from "./Entities";
+import {Coordinate3D, Interval} from "../Entities";
 
 export class Triangle3D {
     private readonly points: Coordinate3D[];
@@ -179,7 +179,7 @@ export class Triangle3D {
             return false;
         } else if (this.parallel(N1, N2) && Math.abs(d1 - d2) < this.EPS) {
             // at the same plane
-            //TODO
+            //TODO must be implemented
             throw new Error("Not implemented");
         }
 

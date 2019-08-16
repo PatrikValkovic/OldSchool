@@ -1,6 +1,6 @@
 import {Renderable} from "./Renderable";
 import {Coordinate, Coordinate3D, Rect} from "../Entities";
-import {positionCalculation} from "../positionCalculation";
+import {positionCalculation} from "../utils/positionCalculation";
 
 export abstract class LineRenderable extends Renderable {
     abstract getPoints(): IterableIterator<Coordinate3D>;

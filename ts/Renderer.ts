@@ -1,5 +1,5 @@
 import {Coordinate, Coordinate3D, Rect} from "./Entities";
-import {positionCalculation} from "./positionCalculation";
+import {positionCalculation} from "./utils/positionCalculation";
 import {Renderable} from "./renderables/Renderable";
 
 export type RenderStyle = {

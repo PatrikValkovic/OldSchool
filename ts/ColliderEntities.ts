@@ -1,5 +1,6 @@
 import {Coordinate3D, Interval} from "./Entities";
-import {Triangle3D} from "./Triangle3D";
+import {Triangle3D} from "./utils/Triangle3D";
+import _ = require("lodash");
 
 export abstract class Collider {
 
@@ -28,7 +29,6 @@ export abstract class Collider {
         return false;
     }
 }
-
 
 export class ColliderCube extends Collider {
 
@@ -91,13 +91,38 @@ export class ColliderCube extends Collider {
     }
 }
 
+export class ColliderUnion extends Collider {
 
-export abstract class Collisionable {
+    constructor(private colliders: Collider[]){
+        super();
+    }
+
+    protected collideCallback(): string {
+        return "collideUnion";
+    }
+
+    triangles(): Triangle3D[] {
+        const triangles: Triangle3D[][] = this.colliders.map(c => c.triangles());
+        return _.concat([], ...triangles);
+    }
+
+
+    collide(second: Collider, direct: boolean = false): boolean {
+        return _.some(this.colliders, c => c.collide(second, direct));
+    }
+}
+
+export abstract class Collisionable<T> {
+    protected constructor(public readonly o: T){
+    }
+
     abstract fastCollider(): Collider;
 
     abstract preciseCollider(): Collider;
 
-    collide(second: Collisionable): boolean {
+    abstract collisionType(): any;
+
+    collide(second: Collisionable<any>): boolean {
         return this.fastCollider().collide(second.fastCollider()) &&
             this.preciseCollider().collide(second.preciseCollider());
     }

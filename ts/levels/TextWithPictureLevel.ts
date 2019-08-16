@@ -1,4 +1,4 @@
-import {ILevel} from "../ILevel";
+import {ILevel} from "./ILevel";
 import {Renderer} from "../Renderer";
 import {EventEngine} from "../EventEngine";
 import {StyleRenderable} from "../renderables/StyleRenderable";
