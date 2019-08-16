@@ -2,9 +2,10 @@ import {ILevel} from "../ILevel";
 import {Renderer} from "../Renderer";
 import {Coordinate, Rect} from "../Entities";
 import {EventEngine} from "../EventEngine";
-import {GameCube, GameRocket} from "../GameEntities";
 import {StyleRenderable} from "../renderables/StyleRenderable";
 import {WorldRenderable} from "../renderables/WorldRenderable";
+import {GameCube} from "../entities/GameCube";
+import {GameRocket} from "../entities/GameRocket";
 
 export class LevelTesting implements ILevel {
 

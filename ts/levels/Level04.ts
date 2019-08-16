@@ -11,7 +11,7 @@ export class Level04 extends TextWithPictureLevel {
         );
 
         console.log(sound().getLooping());
-        sound().getLooping().forEach(val => val.gain.gain.value = 0.15);
+        sound().getLooping().forEach(val => val.gain.gain.value = 0.1);
     }
 
 }

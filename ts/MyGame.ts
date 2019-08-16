@@ -27,13 +27,13 @@ export class MyGame {
             try {
                 events.nextFrame();
                 timing.newFrame();
-                this.render.newFrame();
 
                 //timing.reportCurrent();
                 const delta = timing.delta();
 
                 events.checkPause();
 
+                this.render.newFrame();
                 level.nextFrame();
                 level.update(delta, events);
                 level.collisions();
