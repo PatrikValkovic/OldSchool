@@ -13,26 +13,27 @@ class WorldCollisionable extends Collisionable<GameWorld> {
     }
 
     fastCollider(): Collider {
+        const THICKNESS = 100;
         return new ColliderUnion([
             // left
             new ColliderCube(
-                new Coordinate3D(-1, 0, -1),
-                new Coordinate3D(1, this.o.state.size.y, this.o.state.size.z + 2)
+                new Coordinate3D(-THICKNESS, 0, -THICKNESS),
+                new Coordinate3D(THICKNESS, this.o.state.size.y, this.o.state.size.z + 2*THICKNESS)
             ),
             // top
             new ColliderCube(
-                new Coordinate3D(-1, 0, this.o.state.size.z),
-                new Coordinate3D(this.o.state.size.x + 2, this.o.state.size.y, 1)
+                new Coordinate3D(-THICKNESS, 0, this.o.state.size.z),
+                new Coordinate3D(this.o.state.size.x + 2, this.o.state.size.y, THICKNESS)
             ),
             // right
             new ColliderCube(
-                new Coordinate3D(this.o.state.size.x, 0, -1),
-                new Coordinate3D(1, this.o.state.size.y, this.o.state.size.z + 2)
+                new Coordinate3D(this.o.state.size.x, 0, -THICKNESS),
+                new Coordinate3D(THICKNESS, this.o.state.size.y, this.o.state.size.z + 2*THICKNESS)
             ),
             // bottom
             new ColliderCube(
-                new Coordinate3D(-1, 0, -1),
-                new Coordinate3D(this.o.state.size.x + 2, this.o.state.size.y, 1)
+                new Coordinate3D(-THICKNESS, 0, -THICKNESS),
+                new Coordinate3D(this.o.state.size.x + 2*THICKNESS, this.o.state.size.y, THICKNESS)
             ),
         ])
     }

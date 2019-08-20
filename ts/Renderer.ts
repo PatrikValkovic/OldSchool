@@ -73,9 +73,13 @@ export class Renderer {
         this.clear({fill: background});
     }
 
+    pointPosition(point: Coordinate3D): Coordinate {
+        return positionCalculation(point, this.center, this.wordSize, this.canvasSize, this.distance);
+    }
+
     point(point: Coordinate3D, radius: number = 1, style: RenderStyle = null) {
         Renderer.setStyle(style, this.c);
-        const p = positionCalculation(point, this.center, this.wordSize, this.canvasSize, this.distance);
+        const p = this.pointPosition(point);
         this.c.beginPath();
         this.c.arc(p.x, p.y, radius, 0, 2 * Math.PI);
         Renderer.getRenderMethod(style, this.c)();
@@ -83,8 +87,8 @@ export class Renderer {
 
     line(from: Coordinate3D, to: Coordinate3D, style: RenderStyle = null){
         Renderer.setStyle(style, this.c);
-        const f = positionCalculation(from, this.center, this.wordSize, this.canvasSize, this.distance);
-        const t = positionCalculation(to, this.center, this.wordSize, this.canvasSize, this.distance);
+        const f = this.pointPosition(from);
+        const t = this.pointPosition(to);
         this.c.beginPath();
         this.c.moveTo(f.x, f.y);
         this.c.lineTo(t.x, t.y);
@@ -105,7 +109,7 @@ export class Renderer {
             this.wordSize,
             this.distance,
             this.viewStart,
-            this.viewDistance
+            this.viewDistance,
         );
     }
 }
