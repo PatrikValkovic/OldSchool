@@ -14,7 +14,8 @@ export class TextWithPictureLevel implements ILevel {
 
     constructor(img: string,
                 private text: string,
-                private imgPos: 'left' | 'right' = 'left') {
+                private imgPos: 'left' | 'right' = 'left',
+                private textSize: number = 26) {
         const source = new Image();
         source.addEventListener('load', () => this.imgSource = source);
         source.src = img;
@@ -54,7 +55,7 @@ export class TextWithPictureLevel implements ILevel {
         );
 
         const wText = <number>renderer.context().canvas.width - 2 * borders - w;
-        const fontSize = 26;
+        const fontSize = this.textSize;
         const textBorders = fontSize * phi;
         const xText = this.imgPos === 'left' ? w + borders : borders + textBorders;
         renderer.setStyle({

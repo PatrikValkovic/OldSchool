@@ -4,7 +4,7 @@ import {EventEngine} from "../EventEngine";
 
 export class TimedLevel implements ILevel
 {
-    private innerLevel: ILevel;
+    public readonly innerLevel: ILevel;
     private shouldEnd = false;
 
     constructor(innerLevel: ILevel | ((timeoutInvoke: () => void) => ILevel),

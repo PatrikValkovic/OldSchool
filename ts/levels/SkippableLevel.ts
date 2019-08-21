@@ -8,7 +8,8 @@ export class SkippableLevel implements ILevel
     private shouldEnd = false;
 
     constructor(private innerLevel: ILevel,
-                private foreground: string = '#FFFFFF'){
+                private foreground: string = '#FFFFFF',
+                private skipped: (level: ILevel) => void = null){
     }
 
     nextFrame(): void {
@@ -17,6 +18,8 @@ export class SkippableLevel implements ILevel
 
     update(delta: number, events: EventEngine): void {
         this.shouldEnd = events.getState().pressed.Enter;
+        if(this.shouldEnd && this.skipped)
+            this.skipped(this.innerLevel);
         this.innerLevel.update(delta, events);
     }
 

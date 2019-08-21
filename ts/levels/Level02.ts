@@ -14,8 +14,8 @@ export class Level02 implements ILevel {
         });
         image.src = "res/img/Intro.jpg";
 
-        sound().prepare("res/sound/Bladehand.mp3").then((bufer) => {
-           sound().playInLoop(bufer);
+        sound().prepare("res/sound/Bladehand.mp3").then((buffer) => {
+           sound().playInLoop(buffer);
         });
     }
 

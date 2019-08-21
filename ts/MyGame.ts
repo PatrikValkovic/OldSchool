@@ -40,6 +40,7 @@ export class MyGame {
                 level.render(this.render);
                 if (level.finished()) {
                     level = l.next().value;
+                    // TODO some level loading
                 }
             }
             catch(e){

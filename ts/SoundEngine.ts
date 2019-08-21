@@ -1,4 +1,4 @@
-class SoundWrapper {
+export class SoundWrapper {
     constructor(public gain: GainNode,
                 public buffer: AudioBufferSourceNode){
     }

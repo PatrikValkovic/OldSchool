@@ -7,10 +7,11 @@ import {SkippableLevel} from "./SkippableLevel";
 import {TimedLevel} from "./TimedLevel";
 import {SoundLevel} from "./SoundLevel";
 import {Level04} from "./Level04";
+import {Level05} from "./Level05";
 
 export function* levels(): IterableIterator<ILevel> {
 
-    yield new LevelTesting();
+    //yield new LevelTesting();
 
     // Press enter to
     yield new Level01();
@@ -31,12 +32,18 @@ export function* levels(): IterableIterator<ILevel> {
 
     // Introduction conversation
     yield new SkippableLevel(
-        new TimedLevel(timeoutInvoke =>
-        new SoundLevel(
-            "res/sound/introduction_speech.mp3",
-            timeoutInvoke,
-            new Level04()
-        ), 0),
+        new TimedLevel(
+            timeoutInvoke => new Level04(timeoutInvoke),
+            0),
+        '#000000',
+        (t: TimedLevel) => {
+            (<Level04>t.innerLevel).skipped();
+        }
+    );
+
+    // Horizontal movement test
+    yield new SkippableLevel(
+        new Level05(),
         '#000000'
     );
 

@@ -37,7 +37,7 @@ export class EventEngine {
     private currentFrameEvents: EventState = {...defaultEventState};
     private processingEvents: EventState;
 
-    public attach(canvas: HTMLCanvasElement): void {
+    attach(canvas: HTMLCanvasElement): void {
         window.addEventListener('keydown', (ev) => {
             sound().resume();
             switch(ev.code){
@@ -110,7 +110,7 @@ export class EventEngine {
         });
     }
 
-    public nextFrame(): void {
+    nextFrame(): void {
         this.processingEvents = this.currentFrameEvents;
         this.currentFrameEvents = _.cloneDeep(defaultEventState);
 
@@ -128,13 +128,13 @@ export class EventEngine {
         this.processingEvents = Object.freeze(this.processingEvents);
     }
 
-    public checkPause(): void {
+    checkPause(): void {
         if(this.getState().paused){
             throw new PauseException();
         }
     }
 
-    public getState(): EventState{
+    getState(): EventState{
         return this.processingEvents;
     }
 }
