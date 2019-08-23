@@ -36,9 +36,9 @@ export class GameRocket extends GameEntity<RocketState> {
 
     public static readonly SIZE = new Coordinate3D(1, 2, 1);
 
-    constructor() {
+    constructor(startPos: Coordinate3D = new Coordinate3D()) {
         super({
-            coords: new Coordinate3D()
+            coords: new Coordinate3D(startPos.x, startPos.y, startPos.z)
         });
     }
 

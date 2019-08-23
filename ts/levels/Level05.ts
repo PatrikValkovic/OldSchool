@@ -52,7 +52,7 @@ export class Level05 implements ILevel {
     }
 
     collisions(): void {
-        this.collisionEngine.checkAll();
+        this.collisionEngine.checkDynamicStatic();
 
         this.user.applyState();
     }

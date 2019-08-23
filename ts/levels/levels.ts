@@ -5,14 +5,14 @@ import {Level02} from "./Level02";
 import {Level03} from "./Level03";
 import {SkippableLevel} from "./SkippableLevel";
 import {TimedLevel} from "./TimedLevel";
-import {SoundLevel} from "./SoundLevel";
 import {Level04} from "./Level04";
 import {Level05} from "./Level05";
 import {Level06} from "./Level06";
+import {Level07} from "./Level07";
 
 export function* levels(): IterableIterator<ILevel> {
 
-    yield new LevelTesting();
+    //yield new LevelTesting();
 
     // Press enter to
     yield new Level01();
@@ -58,6 +58,8 @@ export function* levels(): IterableIterator<ILevel> {
             (<Level06>t.innerLevel).skipped();
         }
     );
+
+    yield new Level07();
 
     yield new LevelTesting();
 }
