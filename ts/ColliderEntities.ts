@@ -112,6 +112,39 @@ export class ColliderUnion extends Collider {
     }
 }
 
+export class ColliderPyramid extends Collider {
+
+    constructor(private readonly coords: Coordinate3D,
+                private readonly size: Coordinate3D){
+        super();
+    }
+
+    protected collideCallback(): string {
+        return "collidePyramid";
+    }
+
+    triangles(): Triangle3D[] {
+        const d1 =  new Coordinate3D(this.coords.x, this.coords.y, this.coords.z);
+        const d2 =  new Coordinate3D(this.coords.x+this.size.x, this.coords.y, this.coords.z);
+        const d3 =  new Coordinate3D(this.coords.x, this.coords.y, this.coords.z+this.size.z);
+        const d4 =  new Coordinate3D(this.coords.x+this.size.x, this.coords.y, this.coords.z+this.size.z);
+        const u =  new Coordinate3D(
+            this.coords.x + this.size.x / 2,
+            this.coords.y + this.size.y,
+            this.coords.z + this.size.z / 2
+        );
+        return [
+            new Triangle3D(d1, d2, d3),
+            new Triangle3D(d1, d3, d4),
+            new Triangle3D(d1, d2, u),
+            new Triangle3D(d2, d3, u),
+            new Triangle3D(d3, d4, u),
+            new Triangle3D(d4, d1, u),
+        ];
+    }
+
+}
+
 export abstract class Collisionable<T> {
     protected constructor(public readonly o: T){
     }

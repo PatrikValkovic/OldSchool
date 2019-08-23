@@ -1,4 +1,5 @@
 import {Coordinate3D, Interval} from "../Entities";
+import _ = require("lodash");
 
 export class Triangle3D {
     private readonly points: Coordinate3D[];
@@ -179,8 +180,45 @@ export class Triangle3D {
             return false;
         } else if (this.parallel(N1, N2) && Math.abs(d1 - d2) < this.EPS) {
             // at the same plane
-            //TODO must be implemented
-            throw new Error("Not implemented");
+            const firstTriangleLines = [
+                {start: first.points[0], vector: Triangle3D.minus(first.points[1], first.points[0])},
+                {start: first.points[0], vector: Triangle3D.minus(first.points[2], first.points[0])},
+                {start: first.points[1], vector: Triangle3D.minus(first.points[2], first.points[1])},
+            ];
+            const secondTriangleLiens = [
+                {start: second.points[0], vector: Triangle3D.minus(second.points[1], second.points[0])},
+                {start: second.points[0], vector: Triangle3D.minus(second.points[2], second.points[0])},
+                {start: second.points[1], vector: Triangle3D.minus(second.points[2], second.points[1])},
+            ];
+            for (const fLine of firstTriangleLines) {
+                const multipliers = secondTriangleLiens.map(sLine => {
+                    const fMultiplier =
+                        (sLine.vector.x * (fLine.start.y - sLine.start.y) - sLine.vector.y * (fLine.start.x - sLine.start.x))
+                        /
+                        (sLine.vector.y * fLine.vector.x - fLine.vector.y * sLine.vector.x);
+                    const sMultiplier =
+                        (fLine.start.x + fLine.vector.x * fMultiplier - sLine.start.x) / (sLine.vector.x) ||
+                        (fLine.start.y + fLine.vector.y * fMultiplier - sLine.start.y) / (sLine.vector.y) ||
+                        (fLine.start.z + fLine.vector.z * fMultiplier - sLine.start.z) / (sLine.vector.z);
+                    return {first: fMultiplier, second: sMultiplier};
+                });
+                // at least one line is crossing another
+                if (_.some(multipliers, m => m.first >= 0 && m.first <= 1))
+                    return true;
+                // is within
+                const isWithin = [[0, 1], [1, 2], [0, 2], [1, 0], [2, 1], [2, 0]].map(indexes => {
+                    const fIndex = indexes[0];
+                    const sIndex = indexes[1];
+                    return multipliers[fIndex].first < 0 &&
+                        multipliers[sIndex].first > 0 &&
+                        multipliers[fIndex].second >= 0 && multipliers[fIndex].second <= 1 &&
+                        multipliers[sIndex].second >= 0 && multipliers[sIndex].second <= 1;
+                }).reduce((p, c) => p || c);
+                if(isWithin)
+                    return true;
+            }
+            // otherwise no overlap
+            return false;
         }
 
         // intersection line

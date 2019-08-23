@@ -10,6 +10,7 @@ import {CollisionEngine} from "../CollisionEngine";
 import {GameWorld} from "../entities/GameWorld";
 import {Collisionable} from "../ColliderEntities";
 import {GameEnd} from "../entities/GameEnd";
+import {GamePyramid} from "../entities/GamePyramid";
 
 export class LevelTesting implements ILevel {
 
@@ -19,20 +20,20 @@ export class LevelTesting implements ILevel {
     private levelRunning: boolean = true;
 
     private user = new GameRocket();
-    private cubes = [
-        new GameCube(0, 10, 0),
-        new GameCube(5, 11, 5),
-        new GameCube(5, 14, 5),
-        new GameCube(4, 15, 5),
-        new GameCube(3, 17, 4),
-        new GameCube(4, 17, 4),
-        new GameCube(0, 20, 0, 2, 4, 2),
-        new GameCube(4, 25, 4),
-        new GameCube(5, 25, 4),
-        new GameCube(5, 25, 5),
-        new GameCube(1, 26, 1),
-        new GameCube(0, 5, 0, 1, 8, 1),
-        new GameCube(16, 25, 10, 4, 4, 4),
+    private obstacles = [
+        new GamePyramid(0, 4, 0, 2, 2, 5),
+        new GamePyramid(5, 11, 5),
+        new GamePyramid(5, 14, 5),
+        new GamePyramid(4, 15, 5),
+        new GamePyramid(3, 17, 4),
+        new GamePyramid(4, 17, 4),
+        new GamePyramid(0, 20, 0, 2, 4, 2),
+        new GamePyramid(4, 25, 4),
+        new GamePyramid(5, 25, 4),
+        new GamePyramid(5, 25, 5),
+        new GamePyramid(1, 26, 1),
+        new GamePyramid(0, 5, 0, 1, 8, 1),
+        new GamePyramid(16, 25, 10, 4, 4, 4),
     ];
     private world = new GameWorld(new Coordinate3D(8, 50, 6));
     private end = new GameEnd(35);
@@ -44,7 +45,7 @@ export class LevelTesting implements ILevel {
         this.user.state.coords.y = 0;
         this.user.state.coords.z = 0.00000001;
 
-        this.collisionEngine.addStatic(...this.cubes.map(c => c.getColliders()));
+        this.collisionEngine.addStatic(...this.obstacles.map(c => c.getColliders()));
         this.collisionEngine.addStatic(this.world.getColliders());
         this.collisionEngine.addStatic(this.end.getColliders());
         this.collisionEngine.addDynamic(this.user.getColliders());
@@ -103,8 +104,8 @@ export class LevelTesting implements ILevel {
             )
         );
 
-        this.cubes
-            .filter(c => c.isVisible(viewStart, 20))
+        this.obstacles
+            //.filter(c => c.isVisible(viewStart, 20))
             .forEach(c => renderer.render(
                 new StyleRenderable(
                     {stroke: '#0000FF', width: 2},
