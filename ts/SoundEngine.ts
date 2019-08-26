@@ -1,3 +1,5 @@
+import {settings} from "./Settings";
+
 export class SoundWrapper {
     constructor(public gain: GainNode,
                 public buffer: AudioBufferSourceNode){
@@ -8,8 +10,13 @@ class SoundEngine {
     private context: AudioContext;
     private looping: SoundWrapper[] = [];
 
+    private backgroundBuffers: AudioBuffer[] = [];
+
     constructor(){
         this.context = new AudioContext();
+        settings().backgroundMusic.forEach(file => {
+            this.prepare(file).then(buffer => this.backgroundBuffers.push(buffer));
+        })
     }
 
     async prepare(filepath): Promise<AudioBuffer> {
@@ -24,6 +31,13 @@ class SoundEngine {
         });
         request.send();
         return result;
+    }
+
+    playBackground(){
+        const i = Math.floor(Math.random() * this.backgroundBuffers.length);
+        const wrapper = this.playInLoop(this.backgroundBuffers[i]);
+        wrapper.buffer.loop = false;
+        wrapper.buffer.addEventListener("ended", () => this.playBackground());
     }
 
     playInLoop(buffer: AudioBuffer, replacePrev = true): SoundWrapper {

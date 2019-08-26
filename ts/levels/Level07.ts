@@ -10,6 +10,7 @@ import {Collisionable} from "../ColliderEntities";
 import {GameEnd} from "../entities/GameEnd";
 import {GamePyramid} from "../entities/GamePyramid";
 import {LostLevel} from "./LostLevel";
+import {sound} from "../SoundEngine";
 
 export class Level07 implements ILevel {
 
@@ -63,6 +64,8 @@ export class Level07 implements ILevel {
 
 
     constructor() {
+        sound().playBackground();
+
         this.collisionEngine.addStatic(...this.obstacles.map(o => o.getColliders()));
         this.collisionEngine.addStatic(this.world.getColliders());
         this.collisionEngine.addStatic(this.end.getColliders());

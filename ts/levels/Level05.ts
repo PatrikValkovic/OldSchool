@@ -8,6 +8,7 @@ import {CollisionEngine} from "../CollisionEngine";
 import {GameWorld} from "../entities/GameWorld";
 import {Collisionable} from "../ColliderEntities";
 import {GameEnd} from "../entities/GameEnd";
+import {sound} from "../SoundEngine";
 
 export class Level05 implements ILevel {
 
@@ -23,6 +24,8 @@ export class Level05 implements ILevel {
     private collisionEngine = new CollisionEngine();
 
     constructor() {
+        sound().playBackground();
+
         this.user.state.coords.x = 4;
         this.user.state.coords.y = 0;
         this.user.state.coords.z = 0.00000001;
