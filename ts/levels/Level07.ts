@@ -9,6 +9,7 @@ import {GameWorld} from "../entities/GameWorld";
 import {Collisionable} from "../ColliderEntities";
 import {GameEnd} from "../entities/GameEnd";
 import {GamePyramid} from "../entities/GamePyramid";
+import {LostLevel} from "./LostLevel";
 
 export class Level07 implements ILevel {
 
@@ -16,7 +17,7 @@ export class Level07 implements ILevel {
     private readonly distance = 10;
     private readonly viewDistance = 20;
     private readonly collisionEngine = new CollisionEngine();
-    private levelRunning: boolean = true;
+    private levelEnd: ILevel | boolean = false;
 
     private user = new GameRocket(new Coordinate3D(5, 0, 0.000001));
     private world = new GameWorld(new Coordinate3D(10, 90, 8));
@@ -73,10 +74,10 @@ export class Level07 implements ILevel {
                 rocket.o.rollbackState();
                 rocket.o.state.coords.y = ypos;
             });
-        this.collisionEngine.addListener(GameRocket, GameEnd, () => this.levelRunning = false);
+        this.collisionEngine.addListener(GameRocket, GameEnd, () => this.levelEnd = false);
         this.collisionEngine.addListener(GameRocket, GamePyramid,
             () => {
-                console.log("Game end")
+                this.levelEnd = new LostLevel();
             });
     }
 
@@ -131,8 +132,8 @@ export class Level07 implements ILevel {
         );
     }
 
-    finished(): boolean {
-        return !this.levelRunning;
+    finished(): ILevel | boolean {
+        return this.levelEnd;
     }
 
 }

@@ -9,7 +9,7 @@ export interface ILevel {
 
     collisions(): void;
 
-    finished(): boolean;
-
     render(renderer: Renderer): void;
+
+    finished(): (() => ILevel) | ILevel | boolean;
 }

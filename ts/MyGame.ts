@@ -39,7 +39,12 @@ export class MyGame {
                 level.collisions();
                 level.render(this.render);
                 if (level.finished()) {
-                    level = l.next().value;
+                    if(typeof level.finished() === 'function')
+                        level = (<() => ILevel>level.finished())();
+                    else if(typeof level.finished() === 'object')
+                        level = <ILevel>level.finished();
+                    else if(typeof level.finished() === 'boolean')
+                        level = l.next().value;
                     // TODO some level loading
                 }
             }

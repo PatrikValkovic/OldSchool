@@ -38,7 +38,7 @@ export class TimedLevel implements ILevel
         this.innerLevel.render(renderer);
     }
 
-    finished(): boolean {
+    finished(): (() => ILevel) | ILevel | boolean {
         return this.shouldEnd || this.innerLevel.finished();
     }
 

@@ -40,7 +40,7 @@ export class SkippableLevel implements ILevel
         c.fillText("Press Enter to skip", 4, 16);
     }
 
-    finished(): boolean {
+    finished(): (() => ILevel) | ILevel | boolean {
         return this.shouldEnd || this.innerLevel.finished();
     }
 

@@ -19,7 +19,7 @@ export class SoundLevel implements ILevel {
             this.level.collisions();
     }
 
-    finished(): boolean {
+    finished(): (() => ILevel) | ILevel | boolean {
         if(this.level)
             return this.level.finished();
     }
