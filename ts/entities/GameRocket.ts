@@ -34,16 +34,12 @@ class RocketCollision extends Collisionable<GameRocket>{
 
 export class GameRocket extends GameEntity<RocketState> {
 
-    public static readonly SIZE = new Coordinate3D(1, 2, 1);
+    public static readonly SIZE = new Coordinate3D(0.6, 1.5, 0.3);
 
     constructor(startPos: Coordinate3D = new Coordinate3D()) {
         super({
             coords: new Coordinate3D(startPos.x, startPos.y, startPos.z)
         });
-    }
-
-    isVisible(userPos: number, distance: number) {
-        return true;
     }
 
     getRenderable(): Renderable {

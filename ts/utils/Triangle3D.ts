@@ -10,7 +10,7 @@ export class Triangle3D {
 
     private static readonly EPS = 0.0000000001;
 
-    private static plus(first: Coordinate3D, second: Coordinate3D): Coordinate3D {
+    public static plus(first: Coordinate3D, second: Coordinate3D): Coordinate3D {
         return new Coordinate3D(
             first.x + second.x,
             first.y + second.y,
@@ -18,7 +18,7 @@ export class Triangle3D {
         )
     }
 
-    private static minus(first: Coordinate3D, second: Coordinate3D): Coordinate3D {
+    public static minus(first: Coordinate3D, second: Coordinate3D): Coordinate3D {
         return new Coordinate3D(
             first.x - second.x,
             first.y - second.y,
@@ -26,7 +26,7 @@ export class Triangle3D {
         )
     }
 
-    private static mult(n: number, vector: Coordinate3D): Coordinate3D {
+    public static mult(n: number, vector: Coordinate3D): Coordinate3D {
         return new Coordinate3D(
             n * vector.x,
             n * vector.y,
@@ -34,15 +34,15 @@ export class Triangle3D {
         )
     }
 
-    private static normalize(vector: Coordinate3D): Coordinate3D {
+    public static normalize(vector: Coordinate3D): Coordinate3D {
         return this.mult(1 / this.vecLength(vector), vector);
     }
 
-    private static dot(first: Coordinate3D, second: Coordinate3D): number {
+    public static dot(first: Coordinate3D, second: Coordinate3D): number {
         return first.x * second.x + first.y * second.y + first.z * second.z;
     }
 
-    private static cross(first: Coordinate3D, second: Coordinate3D): Coordinate3D {
+    public static cross(first: Coordinate3D, second: Coordinate3D): Coordinate3D {
         return new Coordinate3D(
             first.y * second.z - first.z * second.y,
             first.z * second.x - first.x * second.z,
@@ -50,7 +50,7 @@ export class Triangle3D {
         )
     }
 
-    private static vecLength(vector: Coordinate3D): number {
+    public static vecLength(vector: Coordinate3D): number {
         return Math.sqrt(
             Math.pow(vector.x, 2) +
             Math.pow(vector.y, 2) +
@@ -58,22 +58,22 @@ export class Triangle3D {
         )
     }
 
-    private static sign(x: number): -1 | 1 {
+    public static sign(x: number): -1 | 1 {
         return x < 0 ? -1 : 1;
     }
 
-    private static equal(first: Coordinate3D, second: Coordinate3D): boolean {
+    public static equal(first: Coordinate3D, second: Coordinate3D): boolean {
         return Math.abs(first.x - second.x) < this.EPS &&
             Math.abs(first.y - second.y) < this.EPS &&
             Math.abs(first.z - second.z) < this.EPS;
     }
 
-    private static parallel(vector1: Coordinate3D, vector2: Coordinate3D) {
+    public static parallel(vector1: Coordinate3D, vector2: Coordinate3D) {
         const l = this.dot(vector1, vector2) / (this.vecLength(vector1) * this.vecLength(vector2));
         return 1 - Math.abs(l) < this.EPS;
     }
 
-    private static getNotParallel(vector: Coordinate3D, plane: Triangle3D): number[] {
+    public static getNotParallel(vector: Coordinate3D, plane: Triangle3D): number[] {
         for (const coords of [[0, 1], [1, 2], [0, 2]]) {
             const fi = coords[0];
             const si = coords[1];

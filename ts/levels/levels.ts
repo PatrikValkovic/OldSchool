@@ -12,7 +12,7 @@ import {Level07} from "./Level07";
 
 export function* levels(): IterableIterator<ILevel> {
 
-    //yield new LevelTesting();
+    yield new Level07();
 
     // Press enter to
     yield new Level01();

@@ -12,9 +12,10 @@ import {GamePyramid} from "../entities/GamePyramid";
 import {LostLevel} from "./LostLevel";
 import {sound} from "../SoundEngine";
 
+
 export class Level07 implements ILevel {
 
-    private readonly center = new Coordinate(4, 3);
+    private readonly center = new Coordinate(5, 4);
     private readonly distance = 10;
     private readonly viewDistance = 20;
     private readonly collisionEngine = new CollisionEngine();
@@ -27,13 +28,13 @@ export class Level07 implements ILevel {
         new GamePyramid(0, 3, 0, 2, 2, 2),
         new GamePyramid(6, 7, 0, 3, 1, 1),
         new GamePyramid(2, 9, 0, 2, 2, 3),
-        new GamePyramid(7, 9, 0, 2, 2, 4),
+        new GamePyramid(7, 9, 0, 3, 3, 4),
         new GamePyramid(0, 13, 0, 1, 1, 3),
         new GamePyramid(1, 15, 0, 1, 1, 1),
         new GamePyramid(2, 17, 0, 1, 1, 2),
         new GamePyramid(3, 19, 0, 1, 1, 1),
         new GamePyramid(6, 13, 0, 3, 2, 4),
-        new GamePyramid(8, 18, 0, 1, 1, 2),
+        new GamePyramid(8, 18, 0, 2, 1, 2),
         new GamePyramid(7, 20, 0, 1, 1, 3),
         new GamePyramid(0, 23, 0, 2, 3, 7),
         new GamePyramid(5, 23, 0, 3, 3, 7),
@@ -51,12 +52,11 @@ export class Level07 implements ILevel {
         new GamePyramid(5, 43, 0, 5, 3, 8),
         new GamePyramid(5, 46, 0, 1, 1, 7),
         new GamePyramid(4, 47, 0, 1, 1, 7),
-        new GamePyramid(3, 48, 0, 1, 1, 6),
-        new GamePyramid(6, 49, 0, 2, 2, 6),
+        new GamePyramid(6, 48, 0, 2, 2, 6),
         new GamePyramid(8, 50, 0, 2, 2, 7),
         new GamePyramid(0, 50, 0, 2, 2, 5),
-        new GamePyramid(1, 51, 0, 1, 1, 4),
-        new GamePyramid(0, 52, 0, 2, 2, 6),
+        new GamePyramid(1, 52, 0, 1, 1, 4),
+        new GamePyramid(0, 53, 0, 2, 2, 6),
         new GamePyramid(1, 55, 0, 1, 1, 7),
         new GamePyramid(2, 55, 0, 2, 2, 8),
         new GamePyramid(4, 53, 0, 2, 2, 4),
@@ -77,7 +77,7 @@ export class Level07 implements ILevel {
                 rocket.o.rollbackState();
                 rocket.o.state.coords.y = ypos;
             });
-        this.collisionEngine.addListener(GameRocket, GameEnd, () => this.levelEnd = false);
+        this.collisionEngine.addListener(GameRocket, GameEnd, () => this.levelEnd = true);
         this.collisionEngine.addListener(GameRocket, GamePyramid,
             () => {
                 this.levelEnd = new LostLevel();
@@ -88,7 +88,7 @@ export class Level07 implements ILevel {
     }
 
     update(delta: number, events: EventEngine): void {
-        this.user.state.coords.y += delta;
+        this.user.state.coords.y += delta * 2;
         this.user.state.coords.x += events.getState().horizontalMovement * delta;
     }
 
@@ -122,7 +122,7 @@ export class Level07 implements ILevel {
             )
         );
 
-        renderer.setStyle({stroke: '#2e70ff'});
+        renderer.setStyle({stroke: '#2e70ff', width: 2});
         this.obstacles.filter(o => o.isVisible(viewStart, this.viewDistance))
             .map(o => o.getRenderable())
             .forEach(r => renderer.render(r));

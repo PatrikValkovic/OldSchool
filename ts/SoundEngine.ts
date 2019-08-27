@@ -34,9 +34,14 @@ class SoundEngine {
     }
 
     playBackground(){
+        if(this.backgroundBuffers.length === 0) {
+            setTimeout(() => this.playBackground(), 1000);
+            return;
+        }
         const i = Math.floor(Math.random() * this.backgroundBuffers.length);
         const wrapper = this.playInLoop(this.backgroundBuffers[i]);
         wrapper.buffer.loop = false;
+        wrapper.gain.gain.value = 0.6;
         wrapper.buffer.addEventListener("ended", () => this.playBackground());
     }
 
