@@ -10,3 +10,4 @@ export function init(canvasId: string): HTMLCanvasElement {
 
     return canvas;
 }
+

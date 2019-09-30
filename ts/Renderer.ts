@@ -10,6 +10,7 @@ export type RenderStyle = {
     textAlign?: CanvasTextAlign,
 };
 
+//TODO optimize to use template instead of hardcoded parameters
 export class Renderer {
     private readonly c: CanvasRenderingContext2D;
 

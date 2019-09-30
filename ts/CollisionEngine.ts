@@ -34,6 +34,7 @@ export class CollisionEngine {
     }
 
     checkStaticOnly() {
+        //TODO optimize - can be precomputed
         for (const f of this.staticObjects)
             for (const s of this.staticObjects)
                 if (f !== s)
@@ -42,6 +43,7 @@ export class CollisionEngine {
     }
 
     checkDynamicOnly() {
+        //TODO optimize as the last one
         for (const f of this.dynamicObjects)
             for (const s of this.dynamicObjects)
                 if (f !== s)
@@ -50,6 +52,7 @@ export class CollisionEngine {
     }
 
     checkDynamicStatic() {
+        //TODO optimize
         for (const f of this.dynamicObjects)
             for (const s of this.staticObjects)
                 if (f.collide(s))
@@ -91,3 +94,5 @@ export class CollisionEngine {
             (<((e2: E2, e1: E1) => void)[]>this.handlers[s1][s2]).forEach(f => f(o2, o1));
     }
 }
+
+// TODO handle self destructing objects

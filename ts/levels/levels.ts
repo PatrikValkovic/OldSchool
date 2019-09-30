@@ -9,10 +9,15 @@ import {Level04} from "./Level04";
 import {Level05} from "./Level05";
 import {Level06} from "./Level06";
 import {Level07} from "./Level07";
+import {Level08} from "./Level08";
+import {Level09} from "./Level09";
+import {Level10} from "./Level10";
+import {Level11} from "./Level11";
+import {Level12} from "./Level12";
 
 export function* levels(): IterableIterator<ILevel> {
 
-    yield new Level07();
+    //yield new Level12();
 
     // Press enter to
     yield new Level01();
@@ -59,7 +64,38 @@ export function* levels(): IterableIterator<ILevel> {
         }
     );
 
+    // avoid mountains
     yield new Level07();
 
-    yield new LevelTesting();
+    // asteroids speech
+    yield new SkippableLevel(
+        new TimedLevel(
+            timeoutInvoke => new Level08(timeoutInvoke),
+            0),
+        '#000000',
+        (t: TimedLevel) => {
+            (<Level08>t.innerLevel).skipped();
+        }
+    );
+
+    // asteroids
+    yield new Level09();
+
+    // updated radar
+    yield new SkippableLevel(
+        new TimedLevel(
+            timeoutInvoke => new Level10(timeoutInvoke),
+            0),
+        '#000000',
+        (t: TimedLevel) => {
+            (<Level10>t.innerLevel).skipped();
+        }
+    );
+
+    yield new Level11();
+
+    // last level
+    yield new Level12();
+
+    //yield new LevelTesting();
 }

@@ -23,7 +23,7 @@ class WorldCollisionable extends Collisionable<GameWorld> {
             // top
             new ColliderCube(
                 new Coordinate3D(-THICKNESS, 0, this.o.state.size.z),
-                new Coordinate3D(this.o.state.size.x + 2, this.o.state.size.y, THICKNESS)
+                new Coordinate3D(this.o.state.size.x + 2 * THICKNESS, this.o.state.size.y, THICKNESS)
             ),
             // right
             new ColliderCube(
